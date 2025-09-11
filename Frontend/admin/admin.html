@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LabelGen - Amministrazione</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="dashboard-page">
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-logo">LabelGen</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="fa-solid fa-plus-circle nav-icon"></i> Nuova Etichetta</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-history nav-icon"></i> Storico Etichette</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-cog nav-icon"></i> Impostazioni Stampa</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-upload nav-icon"></i> Esporta Template</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-question-circle nav-icon"></i> Aiuto</a></li>
+                </ul>
+                <ul class="nav-list nav-list-admin">
+                    <li class="nav-item"><a href="#" class="nav-link active"><i class="fa-solid fa-user-shield nav-icon"></i> Area Amministratore</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <i class="fa-solid fa-user-circle user-icon"></i>
+                    <span class="user-name">Admin</span>
+                </div>
+                <button class="button button-secondary button-small"><i class="fa-solid fa-sign-out-alt"></i> Esci</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1 class="main-title">Gestione Utenti</h1>
+            
+            <div class="card card-actions">
+                <div class="form-group form-group-search">
+                    <div class="input-icon-wrapper">
+                        <i class="fa-solid fa-search input-icon"></i>
+                        <input type="text" placeholder="Cerca utente per username o ruolo" class="form-input">
+                    </div>
+                </div>
+                <button class="button button-success"><i class="fa-solid fa-user-plus"></i> Aggiungi Utente</button>
+            </div>
+
+            <div class="card mt-6">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Ruolo</th>
+                            <th>Ultimo Accesso</th>
+                            <th>Azioni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>admin_01</td>
+                            <td>Amministratore</td>
+                            <td>22-09-2025 10:15</td>
+                            <td>
+                                <button class="button button-icon button-table"><i class="fa-solid fa-pen"></i></button>
+                                <button class="button button-icon button-table"><i class="fa-solid fa-trash-alt"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>operatore_a</td>
+                            <td>Operatore</td>
+                            <td>22-09-2025 10:18</td>
+                            <td>
+                                <button class="button button-icon button-table"><i class="fa-solid fa-pen"></i></button>
+                                <button class="button button-icon button-table"><i class="fa-solid fa-trash-alt"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        
+        <aside class="preview-panel">
+            </aside>
+    </div>
+    <script src="admin.js"></script>
+</body>
+</html>

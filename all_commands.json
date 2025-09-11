@@ -1,0 +1,361 @@
+{
+  "comandi": [
+    {
+      "T": {
+        "descrizione": "Disegna una stringa di testo nel buffer immagine",
+        "sintassi": "Tp1,p2,p3,p4,p5,p6,p7,p8,p9(,p10),'DATA'",
+        "parametri": [
+          {"p1": "Posizione orizzontale (X) [dot]"},
+          {"p2": "Posizione verticale (Y) [dot]"},
+          {"p3": {
+            "descrizione": "Selezione font",
+            "0": "Font 6pt (9×15 dots)",
+            "1": "Font 8pt (12×20 dots)", 
+            "2": "Font 10pt (16×25 dots)",
+            "3": "Font 12pt (19×30 dots)",
+            "4": "Font 15pt (24×38 dots)",
+            "5": "Font 20pt (32×50 dots)",
+            "6": "Font 30pt (48×76 dots)",
+            "7": "Font 14pt (22×34 dots)",
+            "8": "Font 18pt (28×44 dots)",
+            "9": "Font 24pt (37×58 dots)",
+            "a": "KOREAN 1 (16×16 dots)",
+            "b": "KOREAN 2 (24×24 dots)",
+            "c": "KOREAN 3 (20×20 dots)",
+            "d": "KOREAN 4 (26×26 dots)",
+            "e": "KOREAN 5 (20×26 dots)",
+            "f": "KOREAN 6 (38×38 dots)",
+            "m": "GB2312 (24×24 dots)",
+            "n": "BIG5 (24×24 dots)",
+            "j": "Shift JIS (24×24 dots)",
+            "A-Z": "Font scaricabile (vedi comando DT)"
+          }},
+          {"p4": "Moltiplicatore orizzontale: 1~4"},
+          {"p5": "Moltiplicatore verticale: 1~4"},
+          {"p6": "Spaziatura caratteri destra [dot] (può essere +/-)"},
+          {"p7": {
+            "descrizione": "Rotazione",
+            "0": "Nessuna rotazione",
+            "1": "90 gradi",
+            "2": "180 gradi", 
+            "3": "270 gradi"
+          }},
+          {"p8": {
+            "descrizione": "Stampa inversa",
+            "N": "Normale",
+            "R": "Inversa"
+          }},
+          {"p9": {
+            "descrizione": "Grassetto",
+            "N": "Normale",
+            "B": "Grassetto"
+          }},
+          {"p10": {
+            "descrizione": "Allineamento testo (opzionale)",
+            "F": "p1 = posizione primo carattere (sinistra)",
+            "L": "p1 = posizione ultimo carattere (destra)",
+            "R": "Scrittura da destra a sinistra"
+          }}
+        ],
+        "data": "Stringa di testo, variabili (Vnn), contatori (Cn)"
+      }
+    },
+    {
+      "V": {
+        "descrizione": "Disegna una stringa di testo nel buffer immagine (font vettoriale)",
+        "sintassi": "Vp1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,'DATA'",
+        "parametri": [
+          {"p1": "Posizione orizzontale (X) [dot]"},
+          {"p2": "Posizione verticale (Y) [dot]"},
+          {"p3": {
+            "descrizione": "Selezione font",
+            "U": "ASCII (1 byte)",
+            "K": "KS5601 (2 byte)",
+            "B": "BIG5 (2 byte)",
+            "G": "GB2312 (2 byte)",
+            "J": "Shift-JIS (2 byte)",
+            "a": "OCR-A (1 byte)",
+            "b": "OCR-B (1 byte)"
+          }},
+          {"p4": "Larghezza font (W) [dot]"},
+          {"p5": "Altezza font (H) [dot]"},
+          {"p6": "Spaziatura caratteri destra [dot] (può essere +/-)"},
+          {"p7": {
+            "descrizione": "Grassetto",
+            "N": "Normale",
+            "B": "Grassetto"
+          }},
+          {"p8": {
+            "descrizione": "Stampa inversa", 
+            "N": "Normale",
+            "R": "Inversa"
+          }},
+          {"p9": {
+            "descrizione": "Stile testo",
+            "N": "Normale",
+            "I": "Corsivo"
+          }},
+          {"p10": {
+            "descrizione": "Rotazione",
+            "0": "Nessuna rotazione",
+            "1": "90 gradi",
+            "2": "180 gradi",
+            "3": "270 gradi"
+          }},
+          {"p11": {
+            "descrizione": "Allineamento testo (opzionale)",
+            "L": "Sinistra",
+            "R": "Destra", 
+            "C": "Centro"
+          }},
+          {"p12": {
+            "descrizione": "Direzione scrittura",
+            "0": "Da sinistra a destra",
+            "1": "Da destra a sinistra"
+          }}
+        ]
+      }
+    },
+    {
+      "B1": {
+        "descrizione": "Disegna codice a barre 1D nel buffer immagine",
+        "sintassi": "B1p1,p2,p3,p4,p5,p6,p7,p8(,p9),'DATA'",
+        "parametri": [
+          {"p1": "Posizione orizzontale (X) [dot]"},
+          {"p2": "Posizione verticale (Y) [dot]"},
+          {"p3": {
+            "descrizione": "Selezione barcode",
+            "0": "Code39",
+            "1": "Code128",
+            "2": "I2of5",
+            "3": "Codabar",
+            "4": "Code93",
+            "5": "UPC-A",
+            "6": "UPC-E",
+            "7": "EAN13",
+            "8": "EAN8",
+            "9": "UCC/EAN128"
+          }},
+          {"p4": "Larghezza barra stretta [dot]"},
+          {"p5": "Larghezza barra larga [dot]"},
+          {"p6": "Altezza codice a barre [dot]"},
+          {"p7": {
+            "descrizione": "Rotazione",
+            "0": "Nessuna rotazione",
+            "1": "90 gradi",
+            "2": "180 gradi",
+            "3": "270 gradi"
+          }},
+          {"p8": {
+            "descrizione": "HRI (Human Readable Interpretation)",
+            "0": "Non stampato",
+            "1": "Sotto il codice (Font Size 1)",
+            "2": "Sopra il codice (Font Size 1)",
+            "3": "Sotto il codice (Font Size 2)",
+            "4": "Sopra il codice (Font Size 2)",
+            "5": "Sotto il codice (Font Size 3)",
+            "6": "Sopra il codice (Font Size 3)",
+            "7": "Sotto il codice (Font Size 4)",
+            "8": "Sopra il codice (Font Size 4)"
+          }},
+          {"p9": "Larghezza zona silenziosa (opzionale): 0~20"}
+        ]
+      }
+    },
+    {
+      "B2": {
+        "descrizione": "Disegna codice a barre 2D nel buffer immagine",
+        "sintassi": "B2p1,p2,p3...'DATA'",
+        "parametri": [
+          {"p1": "Posizione orizzontale (X) [dot]"},
+          {"p2": "Posizione verticale (Y) [dot]"},
+          {"p3": {
+            "descrizione": "Selezione 2D barcode",
+            "M": "MaxiCode",
+            "P": "PDF417",
+            "Q": "QR Code",
+            "D": "Data Matrix"
+          }}
+        ],
+        "note": "I parametri successivi dipendono dal tipo di barcode 2D selezionato"
+      }
+    },
+    {
+      "B3": {
+        "descrizione": "Disegna codice a barre speciale nel buffer immagine",
+        "sintassi": "B3p1,p2,p3...'DATA'",
+        "parametri": [
+          {"p1": "Posizione orizzontale (X) [dot]"},
+          {"p2": "Posizione verticale (Y) [dot]"},
+          {"p3": {
+            "descrizione": "Selezione barcode speciale",
+            "I": "IMB (Intelligent Mail Barcode)"
+          }}
+        ]
+      }
+    },
+    {
+      "BD": {
+        "descrizione": "Disegna linea o riquadro nel buffer immagine",
+        "sintassi": "BDp1,p2,p3,p4,p5(,p6)",
+        "parametri": [
+          {"p1": "Posizione orizzontale inizio (X) [dot]"},
+          {"p2": "Posizione verticale inizio (Y) [dot]"},
+          {"p3": "Posizione orizzontale fine (X) [dot]"},
+          {"p4": "Posizione verticale fine (Y) [dot]"},
+          {"p5": {
+            "descrizione": "Opzioni",
+            "O": "Linea sovrascrittura",
+            "E": "Linea OR esclusivo",
+            "D": "Linea eliminazione",
+            "S": "Pendenza (linea obliqua) - richiede p6",
+            "B": "Riquadro - richiede p6"
+          }},
+          {"p6": "Spessore (obbligatorio per S e B)"}
+        ]
+      }
+    },
+    {
+      "CD": {
+        "descrizione": "Disegna cerchio nel buffer immagine",
+        "sintassi": "CDp1,p2,p3,p4",
+        "parametri": [
+          {"p1": "Posizione orizzontale inizio (X) [dot]"},
+          {"p2": "Posizione verticale inizio (Y) [dot]"},
+          {"p3": {
+            "descrizione": "Selezione dimensione cerchio",
+            "1": "Diametro 5mm (40×40 dots)",
+            "2": "Diametro 7mm (56×56 dots)",
+            "3": "Diametro 9mm (72×72 dots)",
+            "4": "Diametro 11mm (88×88 dots)",
+            "5": "Diametro 13mm (104×104 dots)",
+            "6": "Diametro 21mm (168×168 dots)"
+          }},
+          {"p4": "Moltiplicatore: 1~4"}
+        ]
+      }
+    },
+    {
+      "CS": {
+        "descrizione": "Seleziona tabella di codici internazionale",
+        "sintassi": "CSp1,p2",
+        "parametri": [
+          {"p1": {
+            "descrizione": "Set di caratteri internazionale",
+            "0": "U.S.A",
+            "1": "France",
+            "2": "Germany",
+            "3": "U.K",
+            "4": "Denmark I",
+            "5": "Sweden",
+            "6": "Italy",
+            "7": "Spain I", 
+            "8": "Norway",
+            "9": "Denmark II",
+            "10": "Japan",
+            "11": "Spain II",
+            "12": "Latin America",
+            "13": "Korea",
+            "14": "Slovenia/Croatia",
+            "15": "China"
+          }},
+          {"p2": {
+            "descrizione": "Pagine di codice",
+            "0": "CP437 (U.S.A)",
+            "1": "CP850 (Latin1)",
+            "2": "CP852 (Latin2)",
+            "3": "CP860 (Portuguese)",
+            "4": "CP863 (Canadian French)",
+            "5": "CP865 (Nordic)",
+            "6": "WCP1252 (Latin I)",
+            "7": "CP865 + WCP1252 (European Combined)",
+            "8": "CP857 (Turkish)",
+            "9": "CP737 (Greek)",
+            "10": "WCP1250 (Latin 2)",
+            "11": "WCP1253 (Greek)",
+            "12": "WCP1254 (Turkish)",
+            "13": "CP855 (Cyrillic)",
+            "14": "CP862 (Hebrew)",
+            "15": "CP866 (Cyrillic)",
+            "16": "WCP1251 (Cyrillic)",
+            "17": "WCP1255 (Hebrew)",
+            "18": "CP928 (Greek)",
+            "19": "CP864 (Arabic)",
+            "20": "CP775 (Baltic)",
+            "21": "WCP1257 (Baltic)",
+            "22": "CP858 (Latin 1 + Euro)"
+          }}
+        ],
+        "note": "Impostazione predefinita: U.S.A (p1=0, p2=0). European Combined: 0x80=Euro, 0x81-0x9f=PC865, 0xA0-0xff=PC1252"
+      }
+    },
+    {
+      "P": {
+        "descrizione": "Avvia la stampa del contenuto del buffer immagine",
+        "sintassi": "Pp1,[p2]",
+        "parametri": [
+          {"p1": "Numero di set di etichette: 1~65535"},
+          {"p2": "Numero di copie per ogni etichetta: 1~65535 (opzionale)"}
+        ],
+        "note": "Il comando P deve essere terminato con CR (0x0d). Non può essere usato in sequenza template (usare PV)"
+      }
+    }
+  ],
+  "comandi_aggiuntivi": {
+    "media_buffer": [
+      {"ST": "Seleziona stampa termica diretta/transfer"},
+      {"SM": "Imposta margini del buffer immagine"},
+      {"SF": "Imposta opzione back-feed"},
+      {"SL": "Imposta lunghezza etichetta"},
+      {"SW": "Imposta larghezza etichetta"}, 
+      {"SB": "Imposta modalità buffer doppio"},
+      {"CB": "Cancella buffer immagine"}
+    ],
+    "impostazioni_stampante": [
+      {"SS": "Imposta velocità stampa (0-6: 2.5-8.0 ips)"},
+      {"SD": "Imposta densità stampa (0-20)"},
+      {"SO": "Imposta orientamento (T=top-bottom, B=bottom-top)"},
+      {"SP": "Imposta porta seriale"},
+      {"SA": "Imposta offset"},
+      {"TA": "Imposta posizione taglio"}
+    ],
+    "variabili_contatori": [
+      {"SC": "Imposta contatore (per template)"},
+      {"AC": "Imposta auto-contatore (modalità normale)"}, 
+      {"SV": "Imposta variabile"},
+      {"?": "Ottieni contenuto variabili/contatori"},
+      {"PV": "Stampa con variabili"}
+    ],
+    "template": [
+      {"TS": "Inizio memorizzazione template"},
+      {"TE": "Fine memorizzazione template"},
+      {"TR": "Richiama template memorizzato"},
+      {"TD": "Elimina template"},
+      {"TI": "Informazioni template"}
+    ],
+    "immagini": [
+      {"IS": "Memorizza immagine PCX"},
+      {"IR": "Richiama immagine memorizzata"},
+      {"ID": "Elimina immagine"},
+      {"II": "Informazioni immagini"},
+      {"LD": "Disegna dati bitmap"},
+      {"LC": "Disegna dati bitmap compressi"},
+      {"BMP": "Disegna file BMP"}
+    ],
+    "font_scaricabili": [
+      {"DT": "Scarica font TrueType"},
+      {"DD": "Elimina font scaricato"},
+      {"DI": "Informazioni font scaricati"}
+    ],
+    "altri": [
+      {"@": "Inizializza stampante"},
+      {"PI": "Informazioni stampante"},
+      {"CUT": "Abilita/disabilita taglierina"},
+      {"^cp": "Controlla stato stampante (2 byte)"},
+      {"^cu": "Controlla stato stampante (1 byte)"},
+      {"^PI": "Invia informazioni stampante a host"},
+      {"^MBZ": "Impostazione modalità risparmio energetico"},
+      {"^MBP": "Invia info modalità risparmio energetico"}
+    ]
+  }
+}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LabelGen - Dashboard</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="dashboard-page">
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-logo">LabelGen</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#" class="nav-link active"><i class="fa-solid fa-plus-circle nav-icon"></i> Nuova Etichetta</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-history nav-icon"></i> Storico Etichette</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-cog nav-icon"></i> Impostazioni Stampa</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-upload nav-icon"></i> Esporta Template</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-question-circle nav-icon"></i> Aiuto</a></li>
+                </ul>
+                <ul class="nav-list nav-list-admin">
+                    <li class="nav-item"><a href="admin.html" class="nav-link"><i class="fa-solid fa-user-shield nav-icon"></i> Area Amministratore</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <i class="fa-solid fa-user-circle user-icon"></i>
+                    <span class="user-name">Nome Operatore</span>
+                </div>
+                <button class="button button-secondary button-small"><i class="fa-solid fa-sign-out-alt"></i> Esci</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1 class="main-title">Genera Etichetta</h1>
+            <div class="tabs">
+                <button class="tab-button active" data-tab="Q">QR Code</button>
+                <button class="tab-button" data-tab="D">Data Matrix</button>
+                <button class="tab-button" data-tab="P">PDF417</button>
+                <button class="tab-button" data-tab="B">Barcode</button>
+            </div>
+
+            <div id="form-Q" class="form-section active">
+                <div class="card">
+                    <h3 class="card-title">Configurazione QR Code</h3>
+                    <div class="form-group">
+                        <label for="qr-content" class="form-label">Contenuto QR</label>
+                        <textarea id="qr-content" class="form-textarea" placeholder="Inserisci URL, testo, JSON..."></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="qr-width" class="form-label">Larghezza (mm)</label>
+                            <input type="number" id="qr-width" class="form-input" value="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="qr-height" class="form-label">Altezza (mm)</label>
+                            <input type="number" id="qr-height" class="form-input" value="50">
+                        </div>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="qr-logo" class="form-checkbox">
+                        <label for="qr-logo" class="form-label">Aggiungi Logo Centrale</label>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="qr-color" class="form-checkbox" checked>
+                        <label for="qr-color" class="form-label">Colore Nero</label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="form-P" class="form-section active">
+                <div class="card">
+                    <h3 class="card-title">Configurazione PDF417</h3>
+                    <div class="form-group">
+                        <label for="qr-content" class="form-label">Contenuto QR</label>
+                        <textarea id="qr-content" class="form-textarea" placeholder="Inserisci URL, testo, JSON..."></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="qr-width" class="form-label">Larghezza (mm)</label>
+                            <input type="number" id="qr-width" class="form-input" value="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="qr-height" class="form-label">Altezza (mm)</label>
+                            <input type="number" id="qr-height" class="form-input" value="50">
+                        </div>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="qr-logo" class="form-checkbox">
+                        <label for="qr-logo" class="form-label">Aggiungi Logo Centrale</label>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="qr-color" class="form-checkbox" checked>
+                        <label for="qr-color" class="form-label">Colore Nero</label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="form-B" class="form-section hidden">
+                <div class="card">
+                    <h3 class="card-title">Configurazione Barcode</h3>
+                    <div class="form-group">
+                        <label for="bc-content" class="form-label">Contenuto Codice</label>
+                        <input type="text" id="bc-content" class="form-input form-input-large" autofocus placeholder="Inserisci il codice prodotto o SKU">
+                    </div>
+                    <div class="form-group">
+                        <label for="bc-type" class="form-label">Tipo Barcode</label>
+                        <select id="bc-type" class="form-select">
+                            <option value="code128">Code 128</option>
+                            <option value="ean13">EAN-13</option>
+                            <option value="upca">UPC-A</option>
+                            <option value="itf">ITF</option>
+                            <option value="code39">Code 39</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bc-width" class="form-label">Larghezza (mm)</label>
+                            <input type="number" id="bc-width" class="form-input" value="80">
+                        </div>
+                        <div class="form-group">
+                            <label for="bc-height" class="form-label">Altezza (mm)</label>
+                            <input type="number" id="bc-height" class="form-input" value="30">
+                        </div>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="bc-text" class="form-checkbox" checked>
+                        <label for="bc-text" class="form-label">Mostra testo sotto il codice</label>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="bc-border" class="form-checkbox">
+                        <label for="bc-border" class="form-label">Bordi etichetta (per taglio)</label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="form-D" class="form-section hidden">
+                <div class="card">
+                    <h3 class="card-title">Configurazione Data Matrix</h3>
+                    <div class="form-group">
+                        <label for="dm-content" class="form-label">Contenuto Data Matrix</label>
+                        <textarea id="dm-content" class="form-textarea" placeholder="Inserisci contenuto"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-6">
+                <h3 class="card-title">Opzioni di Stampa</h3>
+                <div class="form-group">
+                    <label for="printer" class="form-label">Stampa su:</label>
+                    <select id="printer" class="form-select">
+                        <option>Stampa</option>
+                        <option>Salva File</option>
+                    </select>
+                </div>
+                <button class="button button-success button-large button-full-width mt-4"><i class="fa-solid fa-print"></i> Genera e Stampa Ora</button>
+            </div>
+        </main>
+
+        <aside class="preview-panel">
+            <div class="card">
+                <h3 class="card-title"><i class="fa-solid fa-image"></i> Anteprima Etichetta (1:1)</h3>
+                <div class="preview-box">
+                    <div class="preview-placeholder">
+                        <p>L'anteprima verrà generata qui.</p>
+                    </div>
+                </div>
+                <p class="preview-info">Dimensioni: 50x30mm • Risoluzione: 300 DPI</p>
+                <div class="button-group mt-4">
+                    <button class="button button-icon"><i class="fa-solid fa-sync-alt"></i></button>
+                    <button class="button button-icon"><i class="fa-solid fa-download"></i></button>
+                    <button class="button button-icon"><i class="fa-solid fa-print"></i></button>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="home.js"></script>
+</body>
+</html>
