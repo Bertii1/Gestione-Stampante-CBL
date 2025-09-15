@@ -1,12 +1,26 @@
 import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 import mysql from "mysql2";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { Telnet } from 'telnet-client'
+import { Telnet } from "telnet-client";
 
 const app = express();
-Telnet
-app.use(express.json());
+app.use(express.json());        
+app.use(express.urlencoded({ extended: true }));
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Static routes
+app.use("/App", express.static(path.join(__dirname, "Frontend")));
+app.use("/Media", express.static(path.join(__dirname, "Media")));
+
+// Serve il file commands.json al frontend
+app.get("/commands.json", (req, res) => {
+  res.sendFile(path.join(__dirname, "commands.json"));
+});
 
 const env = process.env;
 // Read DB connection from env (set by docker-compose)
@@ -19,7 +33,7 @@ const dbConfig = {
 };
 
 const db = mysql.createConnection(dbConfig);
-const tn = Telnet()
+const tn = new Telnet();
 
 function connectWithRetry() {
   db.connect(function (err) {
@@ -32,7 +46,12 @@ function connectWithRetry() {
     console.log("MySQL connected");
   });
 }
+
 setTimeout(connectWithRetry, 2000);
+
+app.get("/", (req, res) => {
+  res.redirect("/App/home/home.html");
+});
 
 app.post("/newUser", async (req, res) => {
   try {
@@ -45,10 +64,12 @@ app.post("/newUser", async (req, res) => {
     const hash = await bcrypt.hash(password, 10); // 10 = saltRounds
 
     // Query sicura con placeholder (mysql2 promise API)
-    const [result] = await db.promise().execute(
-      "INSERT INTO USERS (username, password, role) VALUES (?, ?, ?)",
-      [username, hash, role]
-    );
+    const [result] = await db
+      .promise()
+      .execute(
+        "INSERT INTO USERS (username, password, role) VALUES (?, ?, ?)",
+        [username, hash, role]
+      );
 
     // Ottieni l’ID del nuovo utente
     const newUserId = result.insertId;
@@ -60,26 +81,31 @@ app.post("/newUser", async (req, res) => {
   }
 });
 
-app.post("/print", async (req,res) =>{
-  tn
 
-  // these parameters are just examples and most probably won't work for your use-case.
-  const params = {
-    host: '127.0.0.1',
-    port: 23,
-    shellPrompt: '/ # ', // or negotiationMandatory: false
-    timeout: 1500
-  }
 
-  try {
-    await connection.connect(params)
-  } catch (error) {
-    // handle the throw (timeout)
-  }
 
-  const res = await connection.exec('uptime')
-  console.log('async result:', res)
-})
+app.post("/print", async (req, res) => {
+  const cmd = req.body.cmd;
+  console.log("Comando ricevuto:", cmd);
+
+  tn.on("data", function (data) {
+    console.log("Risposta stampante:", data.toString());
+  });
+
+  tn.on("connect", function () {
+    tn.write(`${cmd}\r\n`); 
+    setTimeout(() => {
+      tn.write("P\r\n"); 
+    }, 200);
+  });
+
+  tn.connect({
+    host: env.TN_HOST,
+    port: env.TN_PORT,
+  });
+
+  res.sendStatus(200); // manda risposta al client
+});
 
 app.post("/login", async (req, res) => {
   try {
@@ -107,10 +133,9 @@ app.post("/login", async (req, res) => {
   }
 
   async function checkUser(username, password) {
-    const [rows] = await db.promise().execute(
-      "SELECT * FROM USERS WHERE username = ? LIMIT 1",
-      [username]
-    );
+    const [rows] = await db
+      .promise()
+      .execute("SELECT * FROM USERS WHERE username = ? LIMIT 1", [username]);
 
     if (rows.length === 0) return false; // utente non trovato
 

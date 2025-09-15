@@ -1,52 +1,60 @@
 [
   {
-    "type": "1D Codes",
+    "type": "Codice 1D",
     "command": "B1",
     "options": [
       {
-        "description": "Horizontal position (X) [dot]",
+        "description": "Posizione orizzontale (X) [punti]",
         "position": "p1",
-        "type": "value"
+        "type": "value",
+        "max": 832,
+        "advanced": false
       },
       {
-        "description": "vertical position (Y) [dot]",
+        "description": "Posizione verticale (Y) [punti]",
         "position": "p2",
-        "type": "value"
+        "type": "value",
+        "max": 2432,
+        "advanced": false
       },
       {
-        "description": "barcode type",
+        "description": "Tipo di codice a barre",
         "position": "p3",
         "type": "select",
         "values": {
-          "0": "Code39",
-          "1": "Code128",
-          "2": "I2of5",
+          "0": "Code 39",
+          "1": "Code 128",
+          "2": "Interleaved 2 of 5",
           "3": "Codabar",
-          "4": "Code93",
+          "4": "Code 93",
           "5": "UPC-A",
           "6": "UPC-E",
-          "7": "EAN13",
-          "8": "EAN8",
-          "9": "UCC/EAN128"
-        }
+          "7": "EAN-13",
+          "8": "EAN-8",
+          "9": "UCC/EAN-128"
+        },
+        "advanced": false
       },
       {
-        "description": "Larghezza barra sretta [dots]",
+        "description": "Larghezza barra stretta [punti]",
         "position": "p4",
-        "type": "value"
+        "type": "value",
+        "advanced": true
       },
       {
-        "description": "Larghezza barra larga [dots]",
+        "description": "Larghezza barra larga [punti]",
         "position": "p5",
-        "type": "value"
+        "type": "value",
+        "advanced": true
       },
       {
-        "description": "altezza codice a barre [dots]",
+        "description": "Altezza codice a barre [punti]",
         "position": "p6",
-        "type": "value"
+        "type": "value",
+        "advanced": false
       },
       {
-        "description": "rotazione",
+        "description": "Rotazione",
         "position": "p7",
         "type": "select",
         "values": {
@@ -54,387 +62,275 @@
           "1": "90 gradi",
           "2": "180 gradi",
           "3": "270 gradi"
-        }
+        },
+        "advanced": false
       },
       {
-        "description": "HRI (Human Readable Interpretation)",
+        "description": "HRI (Interpretazione leggibile dall'uomo)",
         "position": "p8",
         "type": "select",
         "values": {
           "0": "Non stampato",
-          "1": "Sotto il codice (Font Size 1)",
-          "2": "Sopra il codice (Font Size 1)",
-          "3": "Sotto il codice (Font Size 2)",
-          "4": "Sopra il codice (Font Size 2)",
-          "5": "Sotto il codice (Font Size 3)",
-          "6": "Sopra il codice (Font Size 3)",
-          "7": "Sotto il codice (Font Size 4)",
-          "8": "Sopra il codice (Font Size 4)"
-        }
+          "1": "Sotto il codice (Dimensione carattere 1)",
+          "2": "Sopra il codice (Dimensione carattere 1)",
+          "3": "Sotto il codice (Dimensione carattere 2)",
+          "4": "Sopra il codice (Dimensione carattere 2)",
+          "5": "Sotto il codice (Dimensione carattere 3)",
+          "6": "Sopra il codice (Dimensione carattere 3)",
+          "7": "Sotto il codice (Dimensione carattere 4)",
+          "8": "Sopra il codice (Dimensione carattere 4)"
+        },
+        "advanced": true
       },
       {
         "description": "Larghezza zona silenziosa (opzionale)",
         "position": "p9",
         "type": "range",
         "rangemin": 0,
-        "rangemax": 20
+        "rangemax": 20,
+        "advanced": true
       }
     ]
   },
   {
-    "type": "2D Codes",
+    "type": "Codice 2D",
     "command": "B2",
     "options": [
       {
-        "description": "Horizontal position (X) [dot]",
+        "description": "Posizione orizzontale (X) [punti]",
         "position": "p1",
-        "type": "value"
+        "type": "value",
+        "max": 832,
+        "advanced": false
       },
       {
-        "description": "vertical position (Y) [dot]",
+        "description": "Posizione verticale (Y) [punti]",
         "position": "p2",
-        "type": "value"
+        "type": "value",
+        "max": 2432,
+        "advanced": false
       },
       {
-        "description": "2D barcode type",
+        "description": "Tipo di codice 2D",
         "position": "p3",
         "type": "select",
-        "values": [
-          {
-            "name": "PDF417",
-            "value": "P"
-          },
-          {
-            "name": "QR Code",
-            "value": "Q"
-          },
-          {
-            "name": "Data Matrix",
-            "value": "D"
-          }
-        ]
+        "values": {
+          "P": "PDF417",
+          "Q": "Codice QR",
+          "D": "Data Matrix"
+        },
+        "advanced": false
       },
       {
-        "description": "2D codes custom option 1",
+        "name": "Opzione personalizzata 2D 1",
         "position": "p4",
-        "custom-options": [
+        "esclusive_options": [
           {
             "for": "PDF417",
-            "name": "Maximum Row Count",
+            "name": "Numero massimo di righe",
             "type": "range",
             "rangemin": 3,
             "rangemax": 90
           },
           {
-            "for": "QR Code",
-            "name": "Model Selection",
+            "for": "Codice QR",
+            "name": "Selezione modello",
             "type": "select",
             "values": [
-              {
-                "name": "Model 1",
-                "value": 1
-              },
-              {
-                "name": "Model 2",
-                "value": 2
-              }
+              { "name": "Modello 1", "value": 1 },
+              { "name": "Modello 2", "value": 2 }
             ]
           },
           {
             "for": "Data Matrix",
-            "name": "Barcode Size",
+            "name": "Dimensione codice a barre",
             "type": "range",
             "rangemin": 1,
             "rangemax": 4
           }
-        ]
+        ],
+        "advanced": true
       },
       {
-        "description": "2D codes custom option 2",
+        "name": "Opzione personalizzata 2D 2",
         "position": "p5",
-        "custom-options": [
+        "esclusive_options": [
           {
             "for": "PDF417",
-            "name": "Maximum Column Count",
+            "name": "Numero massimo di colonne",
             "type": "range",
             "rangemin": 1,
             "rangemax": 30
           },
           {
-            "for": "QR Code",
-            "name": "ECC Level",
+            "for": "Codice QR",
+            "name": "Livello ECC",
             "type": "select",
             "values": [
-              {
-                "name": "7%",
-                "value": "L"
-              },
-              {
-                "name": "15%",
-                "value": "M"
-              },
-              {
-                "name": "25%",
-                "value": "Q"
-              },
-              {
-                "name": "30%",
-                "value": "H"
-              }
+              { "name": "7%", "value": "L" },
+              { "name": "15%", "value": "M" },
+              { "name": "25%", "value": "Q" },
+              { "name": "30%", "value": "H" }
             ]
           },
           {
             "for": "Data Matrix",
-            "name": "Reverse",
+            "name": "Inversione",
             "type": "select",
             "values": [
-              {
-                "name": "normal",
-                "value": "N"
-              },
-              {
-                "name": "Reverse",
-                "value": "R"
-              }
+              { "name": "normale", "value": "N" },
+              { "name": "inverso", "value": "R" }
             ]
           }
-        ]
+        ],
+        "advanced": true
       },
       {
-        "description": "2D codes custom option 3",
+        "name": "Opzione personalizzata 2D 3",
         "position": "p6",
-        "custom-options": [
+        "esclusive_options": [
           {
             "for": "PDF417",
-            "name": "Error Correction Level",
+            "name": "Livello correzione errore",
             "type": "select",
             "values": [
-              {
-                "name": 0,
-                "value": 0,
-                "codeword": 2
-              },
-              {
-                "name": 1,
-                "value": 1,
-                "codeword": 4
-              },
-              {
-                "name": 2,
-                "value": 2,
-                "codeword": 8
-              },
-              {
-                "name": 3,
-                "value": 3,
-                "codeword": 16
-              },
-              {
-                "name": 4,
-                "value": 4,
-                "codeword": 32
-              },
-              {
-                "name": 5,
-                "value": 5,
-                "codeword": 64
-              },
-              {
-                "name": 6,
-                "value": 6,
-                "codeword": 128
-              },
-              {
-                "name": 7,
-                "value": 7,
-                "codeword": 256
-              },
-              {
-                "name": 8,
-                "value": 8,
-                "codeword": 512
-              }
+              { "name": 0, "value": 0, "codeword": 2 },
+              { "name": 1, "value": 1, "codeword": 4 },
+              { "name": 2, "value": 2, "codeword": 8 },
+              { "name": 3, "value": 3, "codeword": 16 },
+              { "name": 4, "value": 4, "codeword": 32 },
+              { "name": 5, "value": 5, "codeword": 64 },
+              { "name": 6, "value": 6, "codeword": 128 },
+              { "name": 7, "value": 7, "codeword": 256 },
+              { "name": 8, "value": 8, "codeword": 512 }
             ]
           },
           {
-            "for": "QR Code",
-            "name": "Barcode Size",
+            "for": "Codice QR",
+            "name": "Dimensione codice a barre",
             "type": "range",
             "rangemin": 1,
             "rangemax": 4
           },
           {
             "for": "Data Matrix",
-            "name": "rotation",
+            "name": "Rotazione",
             "type": "select",
             "values": [
-              {
-                "name": "no rotation",
-                "value": 0
-              },
-              {
-                "name": "90 degrees",
-                "value": 1
-              },
-              {
-                "name": "180 degrees",
-                "value": 2
-              },
-              {
-                "name": "270 degrees",
-                "value": 3
-              }
+              { "name": "nessuna rotazione", "value": 0 },
+              { "name": "90 gradi", "value": 1 },
+              { "name": "180 gradi", "value": 2 },
+              { "name": "270 gradi", "value": 3 }
             ]
           }
-        ]
+        ],
+        "advanced": false
       },
       {
-        "description": "2D codes custom option 4",
+        "name": "Opzione personalizzata 2D 4",
         "position": "p7",
-        "custom-options": [
+        "esclusive_options": [
           {
             "for": "PDF417",
-            "name": "Data Compression Method",
+            "name": "Metodo di compressione dei dati",
             "type": "select",
             "values": [
-              {
-                "nome": "2 Characters per codeword",
-                "value": "0",
-                "datatype": "Text"
-              },
-              {
-                "nome": "2.93 Characters per codeword",
-                "value": "1",
-                "datatype": "Numeric"
-              },
-              {
-                "nome": "1.2 Bytes per codeword",
-                "value": "2",
-                "datatype": "Binary"
-              }
+              { "nome": "2 caratteri per codeword", "value": "0", "datatype": "Testo" },
+              { "nome": "2,93 caratteri per codeword", "value": "1", "datatype": "Numerico" },
+              { "nome": "1,2 byte per codeword", "value": "2", "datatype": "Binario" }
             ]
           },
           {
-            "for": "QR Code",
-            "name": "rotation",
+            "for": "Codice QR",
+            "name": "Rotazione",
             "type": "select",
             "values": [
-              {
-                "name": "no rotation",
-                "value": 0
-              },
-              {
-                "name": "90 degrees",
-                "value": 1
-              },
-              {
-                "name": "180 degrees",
-                "value": 2
-              },
-              {
-                "name": "270 degrees",
-                "value": 3
-              }
+              { "name": "nessuna rotazione", "value": 0 },
+              { "name": "90 gradi", "value": 1 },
+              { "name": "180 gradi", "value": 2 },
+              { "name": "270 gradi", "value": 3 }
             ]
           }
-        ]
+        ],
+        "advanced": false
       },
       {
-        "description": "2D codes custom option 5",
+        "name": "Opzione personalizzata 2D 5",
         "position": "p8",
-        "custom-options": [
+        "esclusive_options": [
           {
             "for": "PDF417",
-            "name": "HRI (Human Readable interpretation",
+            "name": "HRI (Interpretazione leggibile dall'uomo)",
             "type": "select",
             "values": [
-              {
-                "name": "Not Printed",
-                "value": 0
-              },
-              {
-                "name": "Below the barcode",
-                "value": 1
-              }
+              { "name": "Non stampato", "value": 0 },
+              { "name": "Sotto il codice a barre", "value": 1 }
             ]
           }
-        ]
+        ],
+        "advanced": true
       },
       {
-        "description": "2D codes custom option 6",
+        "name": "Opzione personalizzata 2D 6",
         "position": "p9",
-        "custom-options": [
+        "esclusive_options": [
           {
             "for": "PDF417",
-            "name": "Barcode origin point",
+            "name": "Punto di origine del codice a barre",
             "type": "select",
             "values": [
-              {
-                "name": "Center of barcode",
-                "value": 0
-              },
-              {
-                "name": "Upper left corner of barcode(default)",
-                "value": 1
-              }
+              { "name": "Centro del codice a barre", "value": 0 },
+              { "name": "Angolo in alto a sinistra del codice a barre (predefinito)", "value": 1 }
             ]
           }
-        ]
+        ],
+        "advanced": true
       },
       {
-        "description": "2D codes custom option 7",
+        "name": "Opzione personalizzata 2D 7",
         "position": "p10",
-        "custom-options": [
+        "esclusive_options": [
           {
             "for": "PDF417",
-            "name": "Module Width",
+            "name": "Larghezza modulo",
             "type": "range",
             "rangemin": 2,
             "rangemax": 9
           }
-        ]
+        ],
+        "advanced": true
       },
       {
-        "description": "2D codes custom option 8",
+        "name": "Opzione personalizzata 2D 8",
         "position": "p11",
-        "custom-options": [
+        "esclusive_options": [
           {
             "for": "PDF417",
-            "name": "Bar Height",
+            "name": "Altezza barra",
             "type": "range",
             "rangemin": 4,
             "rangemax": 99
           }
-        ]
+        ],
+        "advanced": true
       },
       {
-        "description": "2D codes custom option 9",
+        "name": "Opzione personalizzata 2D 9",
         "position": "p12",
-        "custom-options": [
+        "esclusive_options": [
           {
             "for": "PDF417",
-            "name": "rotation",
+            "name": "Rotazione",
             "type": "select",
             "values": [
-              {
-                "name": "no rotation",
-                "value": 0
-              },
-              {
-                "name": "90 degrees",
-                "value": 1
-              },
-              {
-                "name": "180 degrees",
-                "value": 2
-              },
-              {
-                "name": "270 degrees",
-                "value": 3
-              }
+              { "name": "nessuna rotazione", "value": 0 },
+              { "name": "90 gradi", "value": 1 },
+              { "name": "180 gradi", "value": 2 },
+              { "name": "270 gradi", "value": 3 }
             ]
           }
-        ]
+        ],
+        "advanced": false
       }
     ]
   }
