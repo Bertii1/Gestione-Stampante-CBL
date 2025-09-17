@@ -20,17 +20,11 @@
                 <ul class="nav-list">
                     <li class="nav-item"><a href="#" class="nav-link active"><i
                                 class="fa-solid fa-plus-circle nav-icon"></i> Nuova Etichetta</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-history nav-icon"></i>
+                    <li class="nav-item"><a href="../history/history.html" class="nav-link"><i class="fa-solid fa-history nav-icon"></i>
                             Storico Etichette</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-cog nav-icon"></i>
-                            Impostazioni Stampa</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-upload nav-icon"></i>
-                            Esporta Template</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link"><i
-                                class="fa-solid fa-question-circle nav-icon"></i> Aiuto</a></li>
                 </ul>
                 <ul class="nav-list nav-list-admin">
-                    <li class="nav-item"><a href="admin.html" class="nav-link"><i
+                    <li class="nav-item"><a href="../admin/admin.html" class="nav-link"><i
                                 class="fa-solid fa-user-shield nav-icon"></i> Area Amministratore</a></li>
                 </ul>
             </nav>
@@ -45,6 +39,10 @@
         </aside>
 
         <main class="main-content">
+            <div id="admin-indicator" class="admin-indicator" style="display: none; margin-bottom: 1rem; padding: 0.75rem; background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; border-radius: 8px; font-size: 0.875rem;">
+                👑 <strong>Modalità Amministratore</strong> - 
+                <a href="../admin/admin.html" style="color: #fbbf24; text-decoration: underline;">Gestisci Utenti</a>
+            </div>
             <h1 class="main-title">Genera Etichetta</h1>
 
             <div class="form-section active">
@@ -120,6 +118,7 @@
     </aside>
     </div>
 
+    <script src="../auth.js"></script>
     <script src="home.js"></script>
 </body>
 

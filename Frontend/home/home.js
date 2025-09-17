@@ -91,6 +91,15 @@ function slug(str) {
     .replace(/[^a-z0-9_]/g, "");
 }
 
+// Crea un ID univoco e pulito per i controlli
+function creaIdCampo(option) {
+  const position = option.position || "";
+  const description = option.description || option.name || "";
+
+  // Usa una combinazione di position + slug della description
+  return `${position}_${slug(description)}`;
+}
+
 // =====================
 // Costruttori dei controlli
 // =====================
@@ -102,29 +111,79 @@ function creaCampoNumero(option) {
   input.classList.add("form-input");
   // Supporta sia min/max sia rangemin/rangemax
   const max = option.max ?? option.rangemax;
-  const min = option.min ?? option.rangemin ?? 0;
+  const min = option.min ?? option.rangemin;
   if (max != null) input.max = max;
   if (min != null) input.min = min;
-  input.name = option.description + option.position;
-  input.id = input.name; // id per collegare il label
-  if (min != null) input.value = String(min);
+
+  const fieldId = creaIdCampo(option);
+  input.name = fieldId;
+  input.id = fieldId; // id per collegare il label
+
+  // p1 e p2 (posizioni X e Y) sono sempre obbligatori
+  // p3 è obbligatorio solo per alcuni comandi specifici (B1, B2)
+  const position = option.position || "";
+  const isP1P2Required = ["p1", "p2"].includes(position.toLowerCase());
+  const isP3Required =
+    position.toLowerCase() === "p3" &&
+    currentCmd &&
+    ["B1", "B2"].includes(currentCmd.command);
+  const isRequired = isP1P2Required || isP3Required;
+
+  if (isRequired) {
+    // Per parametri obbligatori, imposta il valore minimo o 0
+    input.value = String(min ?? 0);
+    input.required = true;
+  } else {
+    // Per parametri opzionali, lascia completamente vuoto
+    input.placeholder = `Opzionale - Min: ${min ?? 0}, Max: ${max ?? "N/A"}`;
+    // NON impostare alcun valore - deve rimanere vuoto
+  }
 
   const label = creaLabel(input.id, option.description);
+
+  // Aggiungi indicatore visivo per parametri obbligatori
+  if (isRequired) {
+    label.innerHTML += ' <span style="color: red;">*</span>';
+    label.title = "Parametro obbligatorio";
+  }
+
   return { label, input };
 }
 
 // Crea un select con mappa {key: label}
 function creaCampoSelect(option) {
   const select = document.createElement("select");
-  select.name = option.description + option.position;
-  select.id = select.name;
+  const fieldId = creaIdCampo(option);
+  select.name = fieldId;
+  select.id = fieldId;
   select.classList.add("form-select");
+
+  // Aggiungi opzione vuota per parametri opzionali
+  const position = option.position || "";
+  const isP1P2Required = ["p1", "p2"].includes(position.toLowerCase());
+  const isP3Required =
+    position.toLowerCase() === "p3" &&
+    currentCmd &&
+    ["B1", "B2"].includes(currentCmd.command);
+  const isRequired = isP1P2Required || isP3Required;
+
+  if (!isRequired) {
+    const emptyOpt = document.createElement("option");
+    emptyOpt.value = "";
+    emptyOpt.textContent = "-- Non specificato --";
+    select.appendChild(emptyOpt);
+  }
 
   for (const key in option.values) {
     const opt = document.createElement("option");
     opt.value = key;
     opt.textContent = option.values[key];
     select.appendChild(opt);
+  }
+
+  // Seleziona la prima opzione valida per i parametri richiesti
+  if (isRequired && Object.keys(option.values).length > 0) {
+    select.selectedIndex = 0;
   }
 
   const label = creaLabel(select.id, option.description);
@@ -159,18 +218,25 @@ function creaCampoRange(option) {
   const min = option.min ?? option.rangemin ?? 0;
   if (max != null) input.max = max;
   if (min != null) input.min = min;
-  input.name = option.description + option.position;
-  input.id = input.name;
-  input.value = String(min ?? 0);
+  const fieldId = creaIdCampo(option);
+  input.name = fieldId;
+  input.id = fieldId;
+
+  // Per i range, impostiamo un valore di default poiché un range deve sempre avere un valore
+  // Ma aggiungiamo un attributo per sapere se è il valore di default
+  const defaultValue = min ?? 0;
+  input.value = String(defaultValue);
+  input.dataset.isDefault = "true"; // Segniamo che questo è il valore di default
 
   const label = creaLabel(input.id, option.description);
   const output = document.createElement("output");
   output.classList.add("form-label");
   output.value = input.value;
 
-  // Aggiorna l'output in tempo reale
+  // Aggiorna l'output in tempo reale e rimuovi il flag di default quando viene modificato
   input.addEventListener("input", function () {
     output.value = this.value;
+    this.dataset.isDefault = "false"; // L'utente ha modificato il valore
   });
 
   return { label, input, output };
@@ -414,8 +480,15 @@ function leggiValoriCampi() {
   // Helper: trova il valore di un controllo per id (id === name)
   const valorePerId = (id) => {
     if (!id) return null;
+
     const el = document.getElementById(id);
     if (!el) return null;
+
+    // Per i campi range, controlla se è ancora il valore di default
+    if (el.type === "range" && el.dataset.isDefault === "true") {
+      return null; // Considera il valore di default come "non impostato"
+    }
+
     return el.value ?? null;
   };
 
@@ -433,10 +506,10 @@ function leggiValoriCampi() {
       return;
     }
 
-    // Caso standard: il name è description+position
-    const fieldId =
-      (option.description ?? option.name ?? "") + (option.position ?? "");
-    risultati.push(valorePerId(fieldId));
+    // Caso standard: usa la stessa logica di creazione ID
+    const fieldId = creaIdCampo(option);
+    const value = valorePerId(fieldId);
+    risultati.push(value);
   });
 
   return risultati;
@@ -445,9 +518,66 @@ function leggiValoriCampi() {
 function buildCommandString() {
   if (!currentCmd) return "";
   const values = leggiValoriCampi();
-  // Costruisco: COMMAND,<v1>,<v2>,...
-  const parts = [ ...values.map((v) => v ?? "0")];
-  return `${currentCmd.command+parts.join(",")}`
+
+  // Helper per controllare se un valore è considerato "vuoto"
+  const isEmptyValue = (value, index) => {
+    // p1 e p2 sono sempre obbligatori, quindi solo null/undefined/empty sono vuoti
+    if (index <= 1) {
+      return value == null || value === "" || value === undefined;
+    }
+
+    // Per gli altri parametri, anche "0" può essere considerato "non specificato"
+    // se è il valore di default
+    return (
+      value == null || value === "" || value === "none" || value === undefined
+    );
+  };
+
+  // Verifica che p1 e p2 siano sempre presenti (obbligatori)
+  if (
+    values.length >= 2 &&
+    (isEmptyValue(values[0], 0) || isEmptyValue(values[1], 1))
+  ) {
+    console.warn(
+      "Attenzione: p1 e p2 sono parametri obbligatori ma risultano vuoti"
+    );
+    // In caso di emergenza, usa valori di default
+    if (isEmptyValue(values[0], 0)) values[0] = "0";
+    if (isEmptyValue(values[1], 1)) values[1] = "0";
+  }
+
+  // Prima trovo l'ultimo parametro non vuoto per determinare fino dove costruire la stringa
+  let ultimaPosizioneConValore = -1;
+  for (let i = 0; i < values.length; i++) {
+    if (!isEmptyValue(values[i], i)) {
+      ultimaPosizioneConValore = i;
+    }
+  }
+
+  // Assicurati che almeno p1 e p2 siano inclusi se esistono
+  if (ultimaPosizioneConValore < 1 && values.length >= 2) {
+    ultimaPosizioneConValore = 1; // Includi almeno p1 e p2
+  }
+
+  // Se non ci sono parametri validi, ritorno solo il comando
+  if (ultimaPosizioneConValore === -1) {
+    return currentCmd.command;
+  }
+
+  // Costruisco la stringa includendo solo i parametri necessari
+  const parts = [];
+
+  for (let i = 0; i <= ultimaPosizioneConValore; i++) {
+    const value = values[i];
+    if (!isEmptyValue(value, i)) {
+      // Parametro con valore - lo aggiungo
+      parts.push(value);
+    }
+    // Nota: non aggiungo nulla per i parametri vuoti - questo li omette dalla stringa
+    // Eccezione: p1 e p2 devono sempre essere presenti anche se vuoti (ma non dovrebbe mai accadere)
+  }
+
+  return currentCmd.command + parts.join(",");
 }
 
 function displayString() {
@@ -483,11 +613,34 @@ function showNotification(state, message) {
 }
 
 async function print() {
+  const authData = authManager.getAuthData();
+  const headers = { "Content-Type": "application/json" };
+  
+  // Add authorization header if available
+  if (authData.token) {
+    headers['Authorization'] = `Bearer ${authData.token}`;
+  }
+  
+  // Get current label data for history
+  const labelData = document.getElementById("data-input").value || '';
+  const typeSelect = document.getElementById("type-select");
+  const labelType = typeSelect ? typeSelect.options[typeSelect.selectedIndex].text : 'Unknown';
+  
+  // Collect current form data as template
+  const templateData = {
+    type: labelType,
+    data: labelData,
+    formValues: getCurrentFormValues()
+  };
+  
   const response = await fetch("/print", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify({
       cmd: document.getElementById("preview").value,
+      label_type: labelType,
+      label_data: labelData,
+      template_data: templateData
     }),
   });
 
@@ -497,5 +650,69 @@ async function print() {
     showNotification(false, "❌ Errore nella Stampa");
   }
 }
-// Avvio dell'applicazione (al termine della definizione delle funzioni)
-init();
+
+// Helper function to collect current form values
+function getCurrentFormValues() {
+  const formData = {};
+  
+  // Get all form inputs, selects, and textareas
+  const inputs = document.querySelectorAll('input, select, textarea');
+  inputs.forEach(input => {
+    if (input.id && input.value !== '') {
+      formData[input.id] = {
+        type: input.type || input.tagName.toLowerCase(),
+        value: input.value,
+        label: input.previousElementSibling?.textContent || input.id
+      };
+    }
+  });
+  
+  return formData;
+}
+// Authentication and initialization
+document.addEventListener('DOMContentLoaded', function() {
+  // Check authentication
+  if (!authManager.requireAuth()) {
+    return;
+  }
+  
+  initializeAuth();
+  init();
+});
+
+function initializeAuth() {
+  // Update user info in sidebar
+  const userNameElement = document.querySelector('.user-name');
+  if (userNameElement) {
+    userNameElement.textContent = authManager.getCurrentUsername() || 'Operatore';
+  }
+  
+  // Setup logout button
+  const logoutButton = document.querySelector('.sidebar-footer .button-secondary');
+  if (logoutButton) {
+    logoutButton.addEventListener('click', function() {
+      authManager.logout();
+      window.location.href = '/App/login/login.html';
+    });
+  }
+  
+  // Show/hide admin elements based on role
+  const isAdmin = authManager.isAdmin();
+  
+  const adminSection = document.querySelector('.nav-list-admin');
+  if (adminSection) {
+    adminSection.style.display = isAdmin ? 'block' : 'none';
+  }
+  
+  // Show admin indicator for admins
+  const adminIndicator = document.getElementById('admin-indicator');
+  if (adminIndicator && isAdmin) {
+    adminIndicator.style.display = 'block';
+  }
+  
+  // Update admin link to proper path
+  const adminLink = document.querySelector('a[href="admin.html"]');
+  if (adminLink) {
+    adminLink.href = '../admin/admin.html';
+  }
+}

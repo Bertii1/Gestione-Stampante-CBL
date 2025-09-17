@@ -15,11 +15,9 @@
             </div>
             <nav class="sidebar-nav">
                 <ul class="nav-list">
-                    <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="fa-solid fa-plus-circle nav-icon"></i> Nuova Etichetta</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-history nav-icon"></i> Storico Etichette</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-cog nav-icon"></i> Impostazioni Stampa</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-upload nav-icon"></i> Esporta Template</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-question-circle nav-icon"></i> Aiuto</a></li>
+                    <li class="nav-item"><a href="../home/home.html" class="nav-link"><i class="fa-solid fa-home nav-icon"></i> Dashboard Principale</a></li>
+                    <li class="nav-item"><a href="../home/home.html" class="nav-link"><i class="fa-solid fa-plus-circle nav-icon"></i> Nuova Etichetta</a></li>
+                    <li class="nav-item"><a href="../history/history.html" class="nav-link"><i class="fa-solid fa-history nav-icon"></i> Storico Etichette</a></li>
                 </ul>
                 <ul class="nav-list nav-list-admin">
                     <li class="nav-item"><a href="#" class="nav-link active"><i class="fa-solid fa-user-shield nav-icon"></i> Area Amministratore</a></li>
@@ -35,6 +33,11 @@
         </aside>
 
         <main class="main-content">
+            <nav class="breadcrumb" style="margin-bottom: 1rem; font-size: 0.875rem; color: var(--color-text-light);">
+                <a href="../home/home.html" style="color: var(--color-primary); text-decoration: none;">🏠 Dashboard</a>
+                <span style="margin: 0 0.5rem;">></span>
+                <span>Area Amministratore</span>
+            </nav>
             <h1 class="main-title">Gestione Utenti</h1>
             
             <div class="card card-actions">
@@ -84,6 +87,7 @@
         <aside class="preview-panel">
             </aside>
     </div>
+    <script src="../auth.js"></script>
     <script src="admin.js"></script>
 </body>
 </html>
