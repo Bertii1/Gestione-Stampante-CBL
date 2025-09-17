@@ -448,8 +448,8 @@ function buildCommandString() {
   if (!currentCmd) return "";
   const values = leggiValoriCampi();
   // Costruisco: COMMAND,<v1>,<v2>,...
-  const parts = [currentCmd.command, ...values.map((v) => v ?? "")];
-  return parts.join(",");
+  const parts = [ ...values.map((v) => v ?? "")];
+  return `${currentCmd.command+parts.join(",")};`
 }
 
 function displayString() {
@@ -489,7 +489,7 @@ async function print() {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      cmd: buildCommandString(),
+      cmd: document.getElementById("preview").value,
     }),
   });
 

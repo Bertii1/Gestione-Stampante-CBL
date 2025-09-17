@@ -23,31 +23,34 @@ app.get("/commands.json", (req, res) => {
 });
 
 const env = process.env;
-// Read DB connection from env (set by docker-compose)
-const dbConfig = {
-  host: env.DB_HOST,
-  user: env.DB_USER,
-  password: env.DB_PASSWORD,
-  database: env.DB_NAME,
-  port: 3306,
-};
-
-const db = mysql.createConnection(dbConfig);
+//// Read DB connection from env (set by docker-compose)
+//const dbConfig = {
+//  host: env.DB_HOST,
+//  user: env.DB_USER,
+//  password: env.DB_PASSWORD,
+//  database: env.DB_NAME,
+//  port: 6969,
+//};
+//try {
+//  const db = mysql.createConnection(dbConfig);
+//} catch (err) {
+//  console.error("MySQL connection error:", err);
+//}
 const tn = new Telnet();
-
-function connectWithRetry() {
-  db.connect(function (err) {
-    if (err) {
-      console.error("MySQL connect error:", err.code, err.message);
-      // Retry after a short delay to allow the DB to finish starting up
-      setTimeout(connectWithRetry, 2000);
-      return;
-    }
-    console.log("MySQL connected");
-  });
-}
-
-setTimeout(connectWithRetry, 2000);
+//
+//function connectWithRetry() {
+//  db.connect(function (err) {
+//    if (err) {
+//      console.error("MySQL connect error:", err.code, err.message);
+//      // Retry after a short delay to allow the DB to finish starting up
+//      setTimeout(connectWithRetry, 2000);
+//      return;
+//    }
+//    console.log("MySQL connected");
+//  });
+//}
+//
+//setTimeout(connectWithRetry, 2000);
 
 app.get("/", (req, res) => {
   res.redirect("/App/home/home.html");
@@ -99,10 +102,14 @@ app.post("/print", async (req, res) => {
     }, 200);
   });
 
-  tn.connect({
-    host: env.TN_HOST,
-    port: env.TN_PORT,
-  });
+  try {
+    await tn.connect({
+      host: env.TN_HOST,
+      port: env.TN_PORT,
+    });
+  } catch (err) {
+    console.error("Errore connessione Telnet:", err);
+  }
 
   res.sendStatus(200); // manda risposta al client
 });
@@ -150,7 +157,7 @@ function generateToken(username) {
   return jwt.sign({ username }, env.TOKEN_SECRET, { expiresIn: "24h" });
 }
 
-const PORT = env.PORT || 3000;
+const PORT = env.PORT || 800;
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
 });
