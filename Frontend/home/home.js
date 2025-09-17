@@ -346,7 +346,6 @@ async function init() {
   const printButton = document.getElementById("printButton");
   if (printButton) {
     printButton.addEventListener("click", () => {
-      displayString();
       print();
     });
   }
@@ -355,7 +354,6 @@ async function init() {
   const printButtonSecondary = document.getElementById("printButtonSecondary");
   if (printButtonSecondary) {
     printButtonSecondary.addEventListener("click", () => {
-      displayString();
       print();
     });
   }
