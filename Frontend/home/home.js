@@ -242,6 +242,214 @@ function creaCampoRange(option) {
   return { label, input, output };
 }
 
+// Crea un campo file upload per SVG
+function creaCampoFileUpload(option) {
+  const container = document.createElement("div");
+  container.classList.add("file-upload-container");
+  
+  const input = document.createElement("input");
+  input.type = "file";
+  input.classList.add("file-input");
+  input.accept = option.accept || ".svg";
+  
+  const fieldId = creaIdCampo(option);
+  input.name = fieldId;
+  input.id = fieldId;
+  input.style.display = "none"; // Hide default file input
+  
+  // Create custom upload area
+  const uploadArea = document.createElement("div");
+  uploadArea.classList.add("file-upload-area");
+  uploadArea.innerHTML = `
+    <div class="file-upload-content">
+      <i class="fa-solid fa-cloud-upload-alt file-upload-icon"></i>
+      <p class="file-upload-text">${option.placeholder || "Trascina qui il file o clicca per selezionare"}</p>
+      <span class="file-upload-filename"></span>
+    </div>
+  `;
+  
+  // Style the upload area
+  uploadArea.style.cssText = `
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #fafafa;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
+  
+  // Click handler for upload area
+  uploadArea.addEventListener('click', () => {
+    input.click();
+  });
+  
+  // Drag and drop handlers
+  uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.style.borderColor = '#007bff';
+    uploadArea.style.backgroundColor = '#f0f8ff';
+  });
+  
+  uploadArea.addEventListener('dragleave', (e) => {
+    e.preventDefault();
+    uploadArea.style.borderColor = '#ddd';
+    uploadArea.style.backgroundColor = '#fafafa';
+  });
+  
+  uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.style.borderColor = '#ddd';
+    uploadArea.style.backgroundColor = '#fafafa';
+    
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      const file = files[0];
+      if (file.type === 'image/svg+xml' || file.name.toLowerCase().endsWith('.svg')) {
+        handleFileSelection(file, input, uploadArea);
+      } else {
+        showFileError(uploadArea, 'Solo file SVG sono supportati');
+      }
+    }
+  });
+  
+  // File input change handler
+  input.addEventListener('change', (e) => {
+    if (e.target.files.length > 0) {
+      handleFileSelection(e.target.files[0], input, uploadArea);
+    }
+  });
+  
+  container.appendChild(input);
+  container.appendChild(uploadArea);
+  
+  const label = creaLabel(input.id, option.description);
+  return { label, input: container };
+}
+
+// Helper function for file selection
+function handleFileSelection(file, input, uploadArea) {
+  const filenameSpan = uploadArea.querySelector('.file-upload-filename');
+  const textP = uploadArea.querySelector('.file-upload-text');
+  const icon = uploadArea.querySelector('.file-upload-icon');
+  
+  filenameSpan.textContent = file.name;
+  textP.textContent = 'File selezionato:';
+  icon.className = 'fa-solid fa-file-image file-upload-icon';
+  uploadArea.style.borderColor = '#28a745';
+  uploadArea.style.backgroundColor = '#f8fff9';
+  
+  // Store file data for later use
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    input.dataset.fileData = e.target.result;
+    input.dataset.fileName = file.name;
+  };
+  reader.readAsDataURL(file);
+}
+
+// Helper function for file errors
+function showFileError(uploadArea, message) {
+  const textP = uploadArea.querySelector('.file-upload-text');
+  const icon = uploadArea.querySelector('.file-upload-icon');
+  
+  textP.textContent = message;
+  icon.className = 'fa-solid fa-exclamation-triangle file-upload-icon';
+  uploadArea.style.borderColor = '#dc3545';
+  uploadArea.style.backgroundColor = '#fff5f5';
+  
+  setTimeout(() => {
+    textP.textContent = 'Trascina qui il file SVG o clicca per selezionare';
+    icon.className = 'fa-solid fa-cloud-upload-alt file-upload-icon';
+    uploadArea.style.borderColor = '#ddd';
+    uploadArea.style.backgroundColor = '#fafafa';
+  }, 3000);
+}
+
+// Crea un checkbox con label
+function creaCampoCheckbox(option) {
+  const container = document.createElement("div");
+  container.classList.add("checkbox-container");
+  
+  const input = document.createElement("input");
+  input.type = "checkbox";
+  input.classList.add("form-checkbox");
+  
+  const fieldId = creaIdCampo(option);
+  input.name = fieldId;
+  input.id = fieldId;
+  
+  // Set default checked state
+  if (option.checked) {
+    input.checked = true;
+  }
+  
+  const label = document.createElement("label");
+  label.classList.add("checkbox-label");
+  label.htmlFor = fieldId;
+  label.innerHTML = `
+    <span class="checkbox-custom"></span>
+    <span class="checkbox-text">${option.description}</span>
+  `;
+  
+  // Style the custom checkbox
+  const style = document.createElement('style');
+  style.textContent = `
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .form-checkbox {
+      display: none;
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .checkbox-custom {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .form-checkbox:checked + .checkbox-label .checkbox-custom {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+    .form-checkbox:checked + .checkbox-label .checkbox-custom::after {
+      content: '✓';
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .checkbox-label:hover .checkbox-custom {
+      border-color: #007bff;
+    }
+  `;
+  
+  if (!document.querySelector('#checkbox-styles')) {
+    style.id = 'checkbox-styles';
+    document.head.appendChild(style);
+  }
+  
+  container.appendChild(input);
+  container.appendChild(label);
+  
+  return { label: null, input: container }; // Return container as input
+}
+
 // Crea un range a partire da limiti e testo etichetta
 function creaCampoRangeCustom(labelText, name, min, max) {
   return creaCampoRange({
@@ -374,6 +582,17 @@ function LoadSelection(cmd) {
         inserisciInSezione(sezioni, !!option.advanced, label, input, [output]);
         break;
       }
+      case "file_upload": {
+        const { label, input } = creaCampoFileUpload(option);
+        inserisciInSezione(sezioni, !!option.advanced, label, input);
+        break;
+      }
+      case "checkbox": {
+        const { label, input } = creaCampoCheckbox(option);
+        // Per i checkbox, non passiamo label separatamente perché è integrato
+        inserisciInSezione(sezioni, !!option.advanced, null, input);
+        break;
+      }
       default:
         break;
     }
@@ -481,12 +700,25 @@ function leggiValoriCampi() {
   const valorePerId = (id) => {
     if (!id) return null;
 
-    const el = document.getElementById(id);
+    let el = document.getElementById(id);
     if (!el) return null;
 
     // Per i campi range, controlla se è ancora il valore di default
     if (el.type === "range" && el.dataset.isDefault === "true") {
       return null; // Considera il valore di default come "non impostato"
+    }
+
+    // Per i checkbox, ritorna il valore booleano
+    if (el.type === "checkbox") {
+      return el.checked;
+    }
+
+    // Per i file input, cerchiamo i dati del file
+    if (el.type === "file") {
+      return {
+        fileName: el.dataset.fileName || null,
+        fileData: el.dataset.fileData || null
+      };
     }
 
     return el.value ?? null;

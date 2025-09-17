@@ -158,6 +158,40 @@ CREATE TABLE LABEL_TEMPLATES (
 }
 ```
 
+### 4. Tipo Logo/Immagine (IMG)
+Nuovo tipo per l'inserimento di loghi e immagini SVG nelle etichette.
+
+#### Configurazione JSON
+```json
+{
+  "type": "Logo/Immagine",
+  "command": "IMG",
+  "options": [
+    {
+      "description": "Posizione orizzontale (X) [punti]",
+      "position": "p1",
+      "type": "value",
+      "max": 832,
+      "required": true
+    },
+    {
+      "description": "File SVG Logo",
+      "position": "p3",
+      "type": "file_upload",
+      "accept": ".svg",
+      "placeholder": "Trascina qui il file SVG o clicca per selezionare"
+    }
+  ]
+}
+```
+
+#### Opzioni Disponibili
+- **Posizionamento**: Coordinate X/Y o posizioni predefinite (9 posizioni)
+- **Dimensioni**: Larghezza, altezza e scala con mantenimento proporzioni
+- **Trasformazioni**: Rotazione (0°, 90°, 180°, 270°)
+- **Aspetto**: Opacità e modalità colore (originale, B&N, scala grigi, invertito)
+- **Margini**: Margine interno configurabile
+
 ---
 
 ## Route Backend

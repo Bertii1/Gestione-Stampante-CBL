@@ -333,5 +333,35 @@
         "advanced": false
       }
     ]
+  },
+  {
+    "type": "Logo/Immagine",
+    "command": "IMG",
+    "options": [
+      {
+        "description": "Posizione orizzontale (X) [punti]",
+        "position": "p1",
+        "type": "value",
+        "max": 832,
+        "min": 0,
+        "advanced": false
+      },
+      {
+        "description": "Posizione verticale (Y) [punti]",
+        "position": "p2",
+        "type": "value",
+        "max": 2432,
+        "min": 0,
+        "advanced": false
+      },
+      {
+        "description": "File Bmp Logo",
+        "position": "p3",
+        "type": "file_upload",
+        "accept": ".bmp",
+        "placeholder": "Trascina qui il file bmp o clicca per selezionare",
+        "advanced": false
+      }
+    ]
   }
 ]
