@@ -448,8 +448,8 @@ function buildCommandString() {
   if (!currentCmd) return "";
   const values = leggiValoriCampi();
   // Costruisco: COMMAND,<v1>,<v2>,...
-  const parts = [ ...values.map((v) => v ?? "")];
-  return `${currentCmd.command+parts.join(",")};`
+  const parts = [ ...values.map((v) => v ?? "0")];
+  return `${currentCmd.command+parts.join(",")}`
 }
 
 function displayString() {
