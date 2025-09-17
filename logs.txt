@@ -1,0 +1,58 @@
+
+Server listening on http://localhost:800
+Comando ricevuto: B10,0,0,0,0,0,0,0,0,'eiuwqeywqi'
+Errore connessione Telnet: Error: Cannot connect
+    at Socket.<anonymous> (/usr/src/app/node_modules/telnet-client/lib/index.js:137:35)
+    at Object.onceWrapper (node:events:638:28)
+    at Socket.emit (node:events:524:28)
+    at Socket._onTimeout (node:net:595:8)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+/usr/src/app/node_modules/telnet-client/lib/index.js:303
+                                        reject(new Error('response not received'));
+                                               ^
+
+Error: response not received
+    at Timeout._onTimeout (/usr/src/app/node_modules/telnet-client/lib/index.js:303:48)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+
+Node.js v20.19.5
+Server listening on http://localhost:800
+Comando ricevuto: B10,0,0,0,0,0,0,0,0,'eiuwqeywqi'
+Errore connessione Telnet: Error: Cannot connect
+    at Socket.<anonymous> (/usr/src/app/node_modules/telnet-client/lib/index.js:137:35)
+    at Object.onceWrapper (node:events:638:28)
+    at Socket.emit (node:events:524:28)
+    at Socket._onTimeout (node:net:595:8)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+/usr/src/app/node_modules/telnet-client/lib/index.js:303
+                                        reject(new Error('response not received'));
+                                               ^
+
+Error: response not received
+    at Timeout._onTimeout (/usr/src/app/node_modules/telnet-client/lib/index.js:303:48)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+
+Node.js v20.19.5
+Server listening on http://localhost:800
+Comando ricevuto: B20,0,Q,1,L,1,0,0,0,0,0,0,'3127398'
+Errore connessione Telnet: Error: Cannot connect
+    at Socket.<anonymous> (/usr/src/app/node_modules/telnet-client/lib/index.js:137:35)
+    at Object.onceWrapper (node:events:638:28)
+    at Socket.emit (node:events:524:28)
+    at Socket._onTimeout (node:net:595:8)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+/usr/src/app/node_modules/telnet-client/lib/index.js:303
+                                        reject(new Error('response not received'));
+                                               ^
+
+Error: response not received
+    at Timeout._onTimeout (/usr/src/app/node_modules/telnet-client/lib/index.js:303:48)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+
+Node.js v20.19.5
