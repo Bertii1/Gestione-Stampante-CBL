@@ -29,7 +29,7 @@ Un'applicazione web moderna per la gestione e stampa di etichette con codici a b
 
 1. **Clona il repository**
    ```bash
-   git clone https://github.com/tuousername/gestione-stampante.git
+   git clone https://github.com/bertii1/gestione-stampante.git
    cd gestione-stampante
    ```
 
@@ -278,7 +278,7 @@ curl http://localhost:800/health
 
 ## 🐛 Bug Report
 
-Se trovi un bug, per favore apri un [issue](https://github.com/tuousername/gestione-stampante/issues) con:
+Se trovi un bug, per favore apri un [issue](https://github.com/bertii1/gestione-stampante/issues) con:
 
 - 📝 **Descrizione** dettagliata del problema
 - 🔄 **Steps** per riprodurre il bug
@@ -310,25 +310,6 @@ Per vulnerabilità di sicurezza, invia email a: security@yourcompany.com
 - **Caching** configurazioni
 - **Minimized** bundle size
 
-## 🗺️ Roadmap
-
-### v1.1 - Q1 2025
-- [ ] 🌐 **Internazionalizzazione** (i18n)
-- [ ] 📱 **Responsive Design** migliorato
-- [ ] 📊 **Dashboard Analytics** avanzata
-- [ ] 🔄 **Auto-backup** database
-
-### v1.2 - Q2 2025  
-- [ ] 🎨 **Theme Switcher** (light/dark mode)
-- [ ] 📧 **Notifiche Email** per eventi critici
-- [ ] 🔌 **Plugin System** per estensibilità
-- [ ] 📈 **Metriche** stampa real-time
-
-### v2.0 - Q3 2025
-- [ ] ☁️ **Cloud Deployment** ready
-- [ ] 🔗 **Multi-printer** support
-- [ ] 🤖 **REST API** pubblica
-- [ ] 📦 **Batch Processing** etichette
 
 ## 📄 Changelog
 
@@ -346,13 +327,6 @@ Per vulnerabilità di sicurezza, invia email a: security@yourcompany.com
 - MySQL database con JSON support
 - Frontend vanilla JavaScript
 - Telnet integration per stampanti
-
-## 📞 Supporto
-
-- 📧 **Email**: support@yourcompany.com
-- 💬 **Discord**: [Server Community](https://discord.gg/yourserver)
-- 📖 **Wiki**: [Documentation Wiki](https://github.com/tuousername/gestione-stampante/wiki)
-- 🐛 **Issues**: [GitHub Issues](https://github.com/tuousername/gestione-stampante/issues)
 
 ## 📜 Licenza
 
@@ -372,7 +346,7 @@ copyright notice and this permission notice appear in all copies.
 
 **⭐ Se questo progetto ti è utile, lascia una stella su GitHub! ⭐**
 
-Made with ❤️ by [Your Name](https://github.com/yourusername)
+Made with ❤️ by [Berti Filippo](https://github.com/bertii1)
 
 [🔝 Torna all'inizio](#-sistema-gestione-stampante)
 
