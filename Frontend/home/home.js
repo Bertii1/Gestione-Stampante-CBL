@@ -631,6 +631,7 @@ async function init() {
   const printButton = document.getElementById("printButton");
   if (printButton) {
     printButton.addEventListener("click", () => {
+      displayString();
       print();
     });
   }
@@ -639,6 +640,7 @@ async function init() {
   const printButtonSecondary = document.getElementById("printButtonSecondary");
   if (printButtonSecondary) {
     printButtonSecondary.addEventListener("click", () => {
+      displayString()
       print();
     });
   }
@@ -856,23 +858,26 @@ async function print() {
   // Get current label data for history
   const labelData = document.getElementById("data-input").value || '';
   const typeSelect = document.getElementById("type-select");
+  const quantity = document.getElementById("label-number").value;
   const labelType = typeSelect ? typeSelect.options[typeSelect.selectedIndex].text : 'Unknown';
+  
   
   // Collect current form data as template
   const templateData = {
     type: labelType,
     data: labelData,
-    formValues: getCurrentFormValues()
+    formValues: getCurrentFormValues(),
   };
   
   const response = await fetch("/print", {
     method: "POST",
     headers,
     body: JSON.stringify({
-      cmd: document.getElementById("preview").value,
+      cmd: buildCommandString(),
       label_type: labelType,
       label_data: labelData,
-      template_data: templateData
+      template_data: templateData,
+      label_quantity : quantity
     }),
   });
 
