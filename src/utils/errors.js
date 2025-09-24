@@ -2,6 +2,7 @@
  * Custom Error Classes
  * Classi per la gestione degli errori personalizzati
  */
+import { logger } from './logger.js';
 
 /**
  * Base API Error Class
@@ -114,9 +115,7 @@ export class RateLimitError extends ApiError {
  * Error Handler Function
  */
 export function handleError(error, req, res, next) {
-  // Log the error
-  const { logger } = import('./logger.js');
-  
+  // Log the error using the shared logger instance
   if (error.isOperational) {
     logger.warn('Operational error occurred', {
       error: error.message,
