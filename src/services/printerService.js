@@ -96,7 +96,7 @@ class PrinterService {
   /**
    * Invia comando alla stampante
    */
-  async sendCommand(connection, command, quantity) {
+  async sendCommand(connection, command, quantity,) {
     return new Promise((resolve, reject) => {
       const timeout = setTimeout(() => {
         reject(new PrinterError('Command timeout'));
@@ -127,10 +127,10 @@ class PrinterService {
     let connection = null;
 
     try {
-      const { cmd, label_quantity } = labelData;
+      const { cmd, label_quantity,labelData } = labelData;
 
       logger.print('started', labelData);
-
+      console.log("cmDD:"+cmd)
       // Validate command
       if (!cmd || cmd.trim().length === 0) {
         throw new PrinterError('Print command is required');
@@ -140,7 +140,7 @@ class PrinterService {
       connection = await this.connect();
       logger.print('comando:', { cmd });
       // Send command
-      await this.sendCommand(connection, cmd, label_quantity);
+      await this.sendCommand(connection, cmd, label_quantity,);
 
       const duration = Date.now() - startTime;
       logger.print('completed', labelData, true);
