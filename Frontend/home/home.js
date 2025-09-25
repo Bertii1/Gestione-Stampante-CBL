@@ -809,7 +809,7 @@ function buildCommandString() {
     // Eccezione: p1 e p2 devono sempre essere presenti anche se vuoti (ma non dovrebbe mai accadere)
   }
   console.log(currentCmd.command + parts.join(","))
-  return currentCmd.command +parts;
+  return currentCmd.command +parts
 }
 
 function displayString() {
