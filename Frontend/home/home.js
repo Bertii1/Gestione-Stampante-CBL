@@ -246,17 +246,17 @@ function creaCampoRange(option) {
 function creaCampoFileUpload(option) {
   const container = document.createElement("div");
   container.classList.add("file-upload-container");
-  
+
   const input = document.createElement("input");
   input.type = "file";
   input.classList.add("file-input");
   input.accept = option.accept || ".svg";
-  
+
   const fieldId = creaIdCampo(option);
   input.name = fieldId;
   input.id = fieldId;
   input.style.display = "none"; // Hide default file input
-  
+
   // Create custom upload area
   const uploadArea = document.createElement("div");
   uploadArea.classList.add("file-upload-area");
@@ -267,7 +267,7 @@ function creaCampoFileUpload(option) {
       <span class="file-upload-filename"></span>
     </div>
   `;
-  
+
   // Style the upload area
   uploadArea.style.cssText = `
     border: 2px dashed #ddd;
@@ -282,30 +282,30 @@ function creaCampoFileUpload(option) {
     align-items: center;
     justify-content: center;
   `;
-  
+
   // Click handler for upload area
   uploadArea.addEventListener('click', () => {
     input.click();
   });
-  
+
   // Drag and drop handlers
   uploadArea.addEventListener('dragover', (e) => {
     e.preventDefault();
     uploadArea.style.borderColor = '#007bff';
     uploadArea.style.backgroundColor = '#f0f8ff';
   });
-  
+
   uploadArea.addEventListener('dragleave', (e) => {
     e.preventDefault();
     uploadArea.style.borderColor = '#ddd';
     uploadArea.style.backgroundColor = '#fafafa';
   });
-  
+
   uploadArea.addEventListener('drop', (e) => {
     e.preventDefault();
     uploadArea.style.borderColor = '#ddd';
     uploadArea.style.backgroundColor = '#fafafa';
-    
+
     const files = e.dataTransfer.files;
     if (files.length > 0) {
       const file = files[0];
@@ -316,17 +316,17 @@ function creaCampoFileUpload(option) {
       }
     }
   });
-  
+
   // File input change handler
   input.addEventListener('change', (e) => {
     if (e.target.files.length > 0) {
       handleFileSelection(e.target.files[0], input, uploadArea);
     }
   });
-  
+
   container.appendChild(input);
   container.appendChild(uploadArea);
-  
+
   const label = creaLabel(input.id, option.description);
   return { label, input: container };
 }
@@ -336,13 +336,13 @@ function handleFileSelection(file, input, uploadArea) {
   const filenameSpan = uploadArea.querySelector('.file-upload-filename');
   const textP = uploadArea.querySelector('.file-upload-text');
   const icon = uploadArea.querySelector('.file-upload-icon');
-  
+
   filenameSpan.textContent = file.name;
   textP.textContent = 'File selezionato:';
   icon.className = 'fa-solid fa-file-image file-upload-icon';
   uploadArea.style.borderColor = '#28a745';
   uploadArea.style.backgroundColor = '#f8fff9';
-  
+
   // Store file data for later use
   const reader = new FileReader();
   reader.onload = (e) => {
@@ -356,12 +356,12 @@ function handleFileSelection(file, input, uploadArea) {
 function showFileError(uploadArea, message) {
   const textP = uploadArea.querySelector('.file-upload-text');
   const icon = uploadArea.querySelector('.file-upload-icon');
-  
+
   textP.textContent = message;
   icon.className = 'fa-solid fa-exclamation-triangle file-upload-icon';
   uploadArea.style.borderColor = '#dc3545';
   uploadArea.style.backgroundColor = '#fff5f5';
-  
+
   setTimeout(() => {
     textP.textContent = 'Trascina qui il file SVG o clicca per selezionare';
     icon.className = 'fa-solid fa-cloud-upload-alt file-upload-icon';
@@ -374,20 +374,20 @@ function showFileError(uploadArea, message) {
 function creaCampoCheckbox(option) {
   const container = document.createElement("div");
   container.classList.add("checkbox-container");
-  
+
   const input = document.createElement("input");
   input.type = "checkbox";
   input.classList.add("form-checkbox");
-  
+
   const fieldId = creaIdCampo(option);
   input.name = fieldId;
   input.id = fieldId;
-  
+
   // Set default checked state
   if (option.checked) {
     input.checked = true;
   }
-  
+
   const label = document.createElement("label");
   label.classList.add("checkbox-label");
   label.htmlFor = fieldId;
@@ -395,7 +395,7 @@ function creaCampoCheckbox(option) {
     <span class="checkbox-custom"></span>
     <span class="checkbox-text">${option.description}</span>
   `;
-  
+
   // Style the custom checkbox
   const style = document.createElement('style');
   style.textContent = `
@@ -438,15 +438,15 @@ function creaCampoCheckbox(option) {
       border-color: #007bff;
     }
   `;
-  
+
   if (!document.querySelector('#checkbox-styles')) {
     style.id = 'checkbox-styles';
     document.head.appendChild(style);
   }
-  
+
   container.appendChild(input);
   container.appendChild(label);
-  
+
   return { label: null, input: container }; // Return container as input
 }
 
@@ -631,8 +631,7 @@ async function init() {
   const printButton = document.getElementById("printButton");
   if (printButton) {
     printButton.addEventListener("click", () => {
-      displayString();
-      print();
+      printexcl(document.getElementById("preview").value);
     });
   }
 
@@ -640,7 +639,6 @@ async function init() {
   const printButtonSecondary = document.getElementById("printButtonSecondary");
   if (printButtonSecondary) {
     printButtonSecondary.addEventListener("click", () => {
-      displayString()
       print();
     });
   }
@@ -750,14 +748,14 @@ function leggiValoriCampi() {
 }
 
 function buildCommandString() {
-  if (!currentCmd) return "";
+  if (!currentCmd) return '';
   const values = leggiValoriCampi();
 
   // Helper per controllare se un valore è considerato "vuoto"
   const isEmptyValue = (value, index) => {
     // p1 e p2 sono sempre obbligatori, quindi solo null/undefined/empty sono vuoti
     if (index <= 1) {
-      return value == null || value === "" || value === undefined;
+      return value == null || value === '' || value === undefined;
     }
 
     // Per gli altri parametri, anche "0" può essere considerato "non specificato"
@@ -849,26 +847,28 @@ function showNotification(state, message) {
 async function print() {
   const authData = authManager.getAuthData();
   const headers = { "Content-Type": "application/json" };
-  
+
   // Add authorization header if available
   if (authData.token) {
     headers['Authorization'] = `Bearer ${authData.token}`;
   }
-  
+
   // Get current label data for history
   const labelData = document.getElementById("data-input").value || '';
   const typeSelect = document.getElementById("type-select");
   const quantity = document.getElementById("label-number").value;
   const labelType = typeSelect ? typeSelect.options[typeSelect.selectedIndex].text : 'Unknown';
-  
-  
+
+
   // Collect current form data as template
   const templateData = {
     type: labelType,
     data: labelData,
     formValues: getCurrentFormValues(),
   };
-  
+
+  console.log("Command to print:", buildCommandString());
+
   const response = await fetch("/print", {
     method: "POST",
     headers,
@@ -877,7 +877,7 @@ async function print() {
       label_type: labelType,
       label_data: labelData,
       template_data: templateData,
-      label_quantity : quantity
+      label_quantity: quantity
     }),
   });
 
@@ -888,10 +888,59 @@ async function print() {
   }
 }
 
+
+async function printexcl(cmd) {
+  const authData = authManager.getAuthData();
+  const headers = { "Content-Type": "application/json" };
+
+  // Add authorization header if available
+  if (authData.token) {
+    headers['Authorization'] = `Bearer ${authData.token}`;
+  }
+
+  // Get current label data for history
+  const labelData = document.getElementById("data-input").value || '';
+  const typeSelect = document.getElementById("type-select");
+  const quantity = document.getElementById("label-number").value;
+  const labelType = typeSelect ? typeSelect.options[typeSelect.selectedIndex].text : 'Unknown';
+
+
+  // Collect current form data as template
+  const templateData = {
+    type: labelType,
+    data: labelData,
+    formValues: getCurrentFormValues(),
+  };
+
+  console.log("Command to print:", cmd);
+
+  const response = await fetch("/print", {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      cmd: cmd,
+      label_type: labelType,
+      label_data: labelData,
+      template_data: templateData,
+      label_quantity: quantity
+    }),
+  });
+
+  if (response.ok) {
+    showNotification(true, "✅ Stampa avvenuta con successo");
+  } else {
+    showNotification(false, "❌ Errore nella Stampa");
+  }
+}
+
+
+
+
+
 // Helper function to collect current form values
 function getCurrentFormValues() {
   const formData = {};
-  
+
   // Get all form inputs, selects, and textareas
   const inputs = document.querySelectorAll('input, select, textarea');
   inputs.forEach(input => {
@@ -903,16 +952,16 @@ function getCurrentFormValues() {
       };
     }
   });
-  
+
   return formData;
 }
 // Authentication and initialization
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   // Check authentication
   if (!authManager.requireAuth()) {
     return;
   }
-  
+
   initializeAuth();
   init();
 });
@@ -923,30 +972,30 @@ function initializeAuth() {
   if (userNameElement) {
     userNameElement.textContent = authManager.getCurrentUsername() || 'Operatore';
   }
-  
+
   // Setup logout button
   const logoutButton = document.querySelector('.sidebar-footer .button-secondary');
   if (logoutButton) {
-    logoutButton.addEventListener('click', function() {
+    logoutButton.addEventListener('click', function () {
       authManager.logout();
       window.location.href = '/App/login/login.html';
     });
   }
-  
+
   // Show/hide admin elements based on role
   const isAdmin = authManager.isAdmin();
-  
+
   const adminSection = document.querySelector('.nav-list-admin');
   if (adminSection) {
     adminSection.style.display = isAdmin ? 'block' : 'none';
   }
-  
+
   // Show admin indicator for admins
   const adminIndicator = document.getElementById('admin-indicator');
   if (adminIndicator && isAdmin) {
     adminIndicator.style.display = 'block';
   }
-  
+
   // Update admin link to proper path
   const adminLink = document.querySelector('a[href="admin.html"]');
   if (adminLink) {

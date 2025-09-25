@@ -20,7 +20,7 @@ class PrinterService {
    */
   createConnection() {
     const connection = new Telnet();
-    
+
     connection.on('data', (data) => {
       logger.debug('Printer response received', {
         data: data.toString().trim(),
@@ -60,7 +60,7 @@ class PrinterService {
 
       this.isConnected = true;
       this.connectionRetries = 0;
-      
+
       logger.info('Printer connected successfully', {
         host: config.printer.host,
         port: config.printer.port,
@@ -96,7 +96,7 @@ class PrinterService {
   /**
    * Invia comando alla stampante
    */
-  async sendCommand(connection, command, quantity) {
+  async sendCommand(connection, command, quantity,) {
     return new Promise((resolve, reject) => {
       const timeout = setTimeout(() => {
         reject(new PrinterError('Command timeout'));
@@ -105,7 +105,7 @@ class PrinterService {
       try {
         // Send the main command
         connection.write(`${command}\r\n`);
-        
+
         // Send print command after a short delay
         setTimeout(() => {
           connection.write(`P1,${quantity}\r\n`);
@@ -127,10 +127,10 @@ class PrinterService {
     let connection = null;
 
     try {
-      const { cmd, label_type, label_data, template_data, label_quantity } = labelData;
+      const { cmd, label_quantity,labelData } = labelData;
 
       logger.print('started', labelData);
-
+      console.log("cmDD:"+cmd)
       // Validate command
       if (!cmd || cmd.trim().length === 0) {
         throw new PrinterError('Print command is required');
@@ -138,9 +138,9 @@ class PrinterService {
 
       // Connect to printer
       connection = await this.connect();
-
+      logger.print('comando:', { cmd });
       // Send command
-      await this.sendCommand(connection,cmd,label_quantity);
+      await this.sendCommand(connection, cmd, label_quantity,);
 
       const duration = Date.now() - startTime;
       logger.print('completed', labelData, true);
@@ -156,11 +156,11 @@ class PrinterService {
     } catch (error) {
       const duration = Date.now() - startTime;
       logger.print('failed', labelData, false, error);
-      
+
       throw new PrinterError(
         `Print operation failed: ${error.message}`,
         {
-          command: labelData.cmd,
+          command: labelData?.cmd,
           duration,
           originalError: error.message
         }
@@ -203,7 +203,7 @@ class PrinterService {
 
     } catch (error) {
       const duration = Date.now() - startTime;
-      
+
       logger.error('Printer connection test failed', {
         host: config.printer.host,
         port: config.printer.port,
@@ -260,7 +260,7 @@ class PrinterService {
     // Basic command format validation
     const validCommands = ['B1', 'B2', 'IMG', 'T', 'A', 'R'];
     const commandStart = trimmedCommand.substring(0, 3);
-    
+
     if (!validCommands.some(cmd => trimmedCommand.startsWith(cmd))) {
       logger.warn('Potentially invalid print command', {
         command: commandStart,
@@ -276,7 +276,7 @@ class PrinterService {
    */
   safeCommandString(command, maxLength = 100) {
     if (!command) return 'NO_COMMAND';
-    
+
     const safe = command.substring(0, maxLength);
     return safe + (command.length > maxLength ? '...' : '');
   }

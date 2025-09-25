@@ -39,7 +39,7 @@ export const config = {
 
   // Printer Configuration
   printer: {
-    host: process.env.TN_HOST || '10.2.12.244',
+    host: process.env.TN_HOST || '10.2.12.245',
     port: parseInt(process.env.TN_PORT) || 100,
     timeout: 30000,
     retryAttempts: 3,
