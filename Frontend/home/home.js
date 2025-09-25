@@ -811,7 +811,7 @@ function buildCommandString() {
     // Eccezione: p1 e p2 devono sempre essere presenti anche se vuoti (ma non dovrebbe mai accadere)
   }
 
-  return currentCmd.command + parts.join(",");
+  return currentCmd.command + " " + parts.join(",");
 }
 
 function displayString() {
@@ -873,7 +873,7 @@ async function print() {
     method: "POST",
     headers,
     body: JSON.stringify({
-      cmd: buildCommandString(),
+      cmd: buildCommandString() + "," + "'" + labelData + "'",
       label_type: labelType,
       label_data: labelData,
       template_data: templateData,
