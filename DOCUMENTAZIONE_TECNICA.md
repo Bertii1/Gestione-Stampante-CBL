@@ -1370,7 +1370,9 @@ CMD ["node", "Router.js"]
 
 ### Script di Deploy
 
-#### docker-scripts.ps1
+Sono disponibili script di gestione sia per **Windows (PowerShell)** che per **Linux/macOS (Bash)**:
+
+#### docker-scripts.ps1 (Windows PowerShell)
 ```powershell
 # Build and deploy
 function Deploy-Application {
@@ -1397,29 +1399,59 @@ function Deploy-Application {
         docker-compose logs
     }
 }
+```
 
-# Database backup
-function Backup-Database {
-    $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
-    $backupFile = "backup_$timestamp.sql"
-    
-    Write-Host "📦 Creating database backup..." -ForegroundColor Blue
-    
-    docker-compose exec db mysqldump -u app -ppassword stampante > $backupFile
-    
-    Write-Host "✅ Backup created: $backupFile" -ForegroundColor Green
-}
+#### docker-scripts.sh (Linux/macOS Bash)
+```bash
+#!/bin/bash
 
-# Logs viewing
-function Show-Logs {
-    param([string]$Service = "")
+# Deploy application
+deploy_application() {
+    print_header "Deploying Gestione Stampante Application"
     
-    if ($Service) {
-        docker-compose logs -f $Service
-    } else {
-        docker-compose logs -f
-    }
+    # Check dependencies
+    check_dependencies
+    
+    # Stop existing containers
+    print_info "Stopping existing containers..."
+    docker-compose down
+    
+    # Build and start
+    print_info "Building Docker containers..."
+    docker-compose build --no-cache
+    docker-compose up -d
+    
+    # Wait for services
+    wait_for_service "db" 60
+    wait_for_service "app" 30
+    
+    # Health check
+    if curl -f http://localhost:800/health &>/dev/null; then
+        print_success "Deployment successful!"
+        echo -e "${CYAN}🌐 Application available at: http://localhost:800${NC}"
+    else
+        print_error "Health check failed!"
+        return 1
+    fi
 }
+```
+
+#### Comandi Disponibili
+
+**PowerShell (Windows):**
+```powershell
+.\docker-scripts.ps1 deploy     # Deploy completo
+.\docker-scripts.ps1 backup     # Backup database
+.\docker-scripts.ps1 logs       # Visualizza logs
+```
+
+**Bash (Linux/macOS):**
+```bash
+./docker-scripts.sh deploy      # Deploy completo
+./docker-scripts.sh backup      # Backup database
+./docker-scripts.sh logs        # Visualizza logs
+./docker-scripts.sh status      # Status sistema
+./docker-scripts.sh test        # Test applicazione
 ```
 
 ### Monitoring e Health Checks
