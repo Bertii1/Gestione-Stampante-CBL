@@ -748,14 +748,14 @@ function leggiValoriCampi() {
 }
 
 function buildCommandString() {
-  if (!currentCmd) return "";
+  if (!currentCmd) return '';
   const values = leggiValoriCampi();
 
   // Helper per controllare se un valore è considerato "vuoto"
   const isEmptyValue = (value, index) => {
     // p1 e p2 sono sempre obbligatori, quindi solo null/undefined/empty sono vuoti
     if (index <= 1) {
-      return value == null || value === "" || value === undefined;
+      return value == null || value === '' || value === undefined;
     }
 
     // Per gli altri parametri, anche "0" può essere considerato "non specificato"
@@ -808,8 +808,8 @@ function buildCommandString() {
     // Nota: non aggiungo nulla per i parametri vuoti - questo li omette dalla stringa
     // Eccezione: p1 e p2 devono sempre essere presenti anche se vuoti (ma non dovrebbe mai accadere)
   }
-
-  return currentCmd.command + parts.join(",");
+  console.log(currentCmd.command + parts.join(","))
+  return currentCmd.command +parts;
 }
 
 function displayString() {

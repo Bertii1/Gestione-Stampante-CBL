@@ -611,10 +611,7 @@ class Application {
         // Print the label
         const printResult = await printerService.printLabel({
           cmd,
-          label_quantity,
-          label_type,
-          label_data,
-          template_data
+          label_quantity
         });
 
         // Save to history if authenticated
