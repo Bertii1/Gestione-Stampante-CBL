@@ -53,10 +53,9 @@ services:
       start_period: 40s
     networks:
       - stampante_network
-    # Per sviluppo: decommentare per live-reload
-    # volumes:
-    #   - .:/usr/src/app:cached
-    #   - /usr/src/app/node_modules
+    volumes:
+      - .:/usr/src/app:cached
+      - /usr/src/app/node_modules
 
 volumes:
   mysql_data:
