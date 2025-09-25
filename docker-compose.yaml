@@ -13,53 +13,32 @@ services:
       - mysql_data:/var/lib/mysql
       - ./db/init:/docker-entrypoint-initdb.d:ro
     command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 30s
     networks:
       - stampante_network
 
   app:
     build:
       context: .
-      dockerfile: dockerfile
-      args:
-        - NODE_ENV=${NODE_ENV:-production}
+      dockerfile: Dockerfile
+      target: prod   # target = stage produzione
     restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
     environment:
-      NODE_ENV: ${NODE_ENV:-production}
+      NODE_ENV: production
       DB_HOST: db
       DB_USER: ${DB_USER:-app}
       DB_PASSWORD: ${DB_PASSWORD:-password}
       DB_NAME: ${DB_NAME:-stampante}
       DB_PORT: 3306
-      SALT: ${SALT:-10}
-      TOKEN_SECRET: ${TOKEN_SECRET:-e48446454f3093b2d0d72ca9fbf87c82e802fa5090a69de9de21544a81f1b3fac66165b4a036136ffaa9a8ac08d814b61cf46d35d01cfeb64ba4fcb8c708eebd}
-      TN_HOST: ${TN_HOST:-10.2.12.244}
-      TN_PORT: ${TN_PORT:-100}
     ports:
       - "${APP_PORT:-800}:800"
-    healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:800/health', (r) => r.statusCode === 200 ? process.exit(0) : process.exit(1))"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
     networks:
       - stampante_network
-    volumes:
-      - .:/usr/src/app:cached
-      - /usr/src/app/node_modules
 
 volumes:
   mysql_data:
-    driver: local
 
 networks:
   stampante_network:
