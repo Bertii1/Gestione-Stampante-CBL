@@ -808,8 +808,8 @@ function buildCommandString() {
     // Nota: non aggiungo nulla per i parametri vuoti - questo li omette dalla stringa
     // Eccezione: p1 e p2 devono sempre essere presenti anche se vuoti (ma non dovrebbe mai accadere)
   }
-  console.log(currentCmd.command + parts.join(","))
-  return currentCmd.command+`${parts},`
+
+  return currentCmd.command + " " + parts.join(",");
 }
 
 function displayString() {
@@ -873,7 +873,7 @@ async function print() {
     method: "POST",
     headers,
     body: JSON.stringify({
-      cmd: buildCommandString()+`'${labelData}'`,
+      cmd: buildCommandString() + "," + "'" + labelData + "'",
       label_type: labelType,
       label_data: labelData,
       template_data: templateData,
