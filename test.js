@@ -4,39 +4,50 @@ import { config } from './src/config/app.js';
 
 async function testPrinterCommand() {
   const connection = new Telnet();
-  
+
   try {
     console.log('Connessione alla stampante...');
     console.log(`Host: ${config.printer.host}:${config.printer.port}`);
-    
+
     await connection.connect({
       host: config.printer.host,
       port: config.printer.port,
       timeout: 30000,
       negotiationMandatory: false
     });
-    
+
     console.log('✅ Connesso alla stampante!');
+
+    const commands = [
+      "CS6,6",
+      "SL288,0,B",
+      "SW560",
+      "B216,16,Q,2,L,4,0,'www.google.com/search?q=matteo+stafissi/diocaneporco.pngs'",
+      "T220,20,2,1,1,0,0,N,N,F,'ASSEGNATO A:'",
+      "T220,80,1,0,1,0,0,N,N,F,'MATTEO STAFISSI'",
+    ];
+
     
-    const command = "B20,0,Q,2,L,4,0,'dioacìabdsua'";
-    console.log(`\nInviando comando: ${command}`);
-    
+    console.log(`\nInviando comando: ${commands}`);
+
     // Invia il comando principale
     await new Promise((resolve, reject) => {
       const socket = connection.socket;
-      
+
       if (!socket || !socket.writable) {
         reject(new Error('Socket non disponibile'));
         return;
       }
-      
-      socket.write(`${command}\r\n`, (error) => {
+      commands.forEach(command => {
+        socket.write(`${command}\r\n`, (error) => {
         if (error) {
           reject(new Error(`Errore invio comando principale: ${error.message}`));
           return;
         }
         console.log('✅ Comando principale inviato');
-        
+
+      })
+
         // Invia comando di stampa dopo delay
         setTimeout(() => {
           socket.write(`P1,1\r\n`, (error) => {
@@ -50,7 +61,7 @@ async function testPrinterCommand() {
         }, 200);
       });
     });
-    } catch (error) {
+  } catch (error) {
     console.error(`❌ Errore: ${error.message}`);
   } finally {
     connection.destroy();
