@@ -609,7 +609,7 @@ class Application {
         const { cmd, label_type, label_data, template_data,quantity } = req.body;
 
         // Print the label
-        const printResult = await printerService.printLabel({
+        const printResult = await printerService.Print({
           cmd,
           quantity
         });
@@ -648,12 +648,6 @@ class Application {
             // Don't fail the print job for history errors
           }
         }
-
-        res.json({
-          success: printResult.success,
-          message: printResult.message,
-          duration: printResult.duration,
-        });
       })
     );
 

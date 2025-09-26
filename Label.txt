@@ -1,0 +1,8 @@
+
+CS6,6
+SL288,32
+SW560
+B216,16,Q,2,M,4,0,'http://cblmanagement.cbl.lan:8080/CBLManagement/articleData.html?articleCode=CBL-PCI000138'
+T220,20,2,1,1,0,0,N,N,F,'ASSEGNATO A:'
+T220,80,1,0,1,0,0,N,N,F,'MATTEO STAFISSI'
+P1
