@@ -22,7 +22,7 @@ async function testPrinterCommand() {
       "CS6,6",
       "SL288,0,B",
       "SW560",
-      "B216,16,Q,2,L,4,0,'www.google.com/search?q=matteo+stafissi/diocaneporco.pngs'",
+      "B216,16,Q,2,L,4,0,''",
       "T220,20,2,1,1,0,0,N,N,F,'ASSEGNATO A:'",
       "T220,80,1,0,1,0,0,N,N,F,'MATTEO STAFISSI'",
     ];
