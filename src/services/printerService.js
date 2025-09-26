@@ -39,7 +39,7 @@ class PrinterService {
     
     // Invia il comando principale
     await new Promise((resolve, reject) => {
-      const socket = connection;
+      const socket = connection.socket;
       
       if (!socket || !socket.writable) {
         reject(new Error('Socket non disponibile'));
@@ -69,7 +69,7 @@ class PrinterService {
     } catch (error) {
     console.error(`❌ Errore: ${error.message}`);
   } finally {
-    connection.end;
+    connection.destroy;
     console.log('Connessione chiusa');
   }
   }

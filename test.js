@@ -39,7 +39,7 @@ async function testPrinterCommand() {
         
         // Invia comando di stampa dopo delay
         setTimeout(() => {
-          socket.write('P1,1\r\n', (error) => {
+          socket.write(`P1,1\r\n`, (error) => {
             if (error) {
               reject(new Error(`Errore invio comando stampa: ${error.message}`));
               return;
