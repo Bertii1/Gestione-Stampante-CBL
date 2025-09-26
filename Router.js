@@ -606,12 +606,13 @@ class Application {
       "/print",
       optionalAuth,
       asyncHandler(async (req, res) => {
-        const { cmd, label_type, label_data, template_data,quantity } = req.body;
+        const { cmd, label_type, label_data, template_data, label_quantity } = req.body;
 
         // Print the label
         const printResult = await printerService.Print({
           cmd,
-          quantity
+          label_quantity,
+          label_data
         });
 
         // Save to history if authenticated
@@ -678,7 +679,29 @@ class Application {
 
     // Unhandled promise rejections
     process.on("unhandledRejection", (reason, promise) => {
-      logger.error("Unhandled Promise Rejection", { reason, promise });
+      let safeReason;
+      try {
+        if (reason instanceof Error) {
+          safeReason = {
+            name: reason.name,
+            message: reason.message,
+            stack: reason.stack,
+          };
+        } else if (typeof reason === "object" && reason !== null) {
+          // Attempt safe serialization for non-Error objects
+          safeReason = JSON.parse(JSON.stringify(reason));
+        } else {
+          safeReason = String(reason);
+        }
+      } catch (e) {
+        safeReason = { type: typeof reason };
+      }
+
+      logger.error("Unhandled Promise Rejection", {
+        reason: safeReason,
+        // Avoid logging the raw Promise object; it's not informative when stringified
+        promise: { state: "unhandled" },
+      });
     });
 
     // Uncaught exceptions

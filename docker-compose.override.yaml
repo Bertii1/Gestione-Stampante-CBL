@@ -1,0 +1,11 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev   # usa stage dev del Dockerfile (con nodemon)
+    environment:
+      NODE_ENV: development
+    volumes:
+      - .:/usr/src/app:cached
+      - /usr/src/app/node_modules
