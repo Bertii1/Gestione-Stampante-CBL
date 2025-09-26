@@ -811,7 +811,7 @@ function buildCommandString() {
     // Eccezione: p1 e p2 devono sempre essere presenti anche se vuoti (ma non dovrebbe mai accadere)
   }
 
-  return currentCmd.command + " " + parts.join(",");
+  return currentCmd.command + parts.join(",");
 }
 
 function displayString() {
@@ -856,7 +856,7 @@ async function print() {
   }
   
   // Get current label data for history
-  const labelData = document.getElementById("data-input").value || '';
+  const labelData = document.getElementById("data-input").value ;
   const typeSelect = document.getElementById("type-select");
   const quantity = document.getElementById("label-number").value;
   const labelType = typeSelect ? typeSelect.options[typeSelect.selectedIndex].text : 'Unknown';
@@ -868,12 +868,15 @@ async function print() {
     data: labelData,
     formValues: getCurrentFormValues(),
   };
+
+  console.log(labelData)
+  console.log("cmd"+buildCommandString() + "," + "'" + labelData + "'")
   
   const response = await fetch("/print", {
     method: "POST",
     headers,
     body: JSON.stringify({
-      cmd: buildCommandString() + "," + "'" + labelData + "'",
+      cmd: buildCommandString()+"," + "'" + labelData + "'",
       label_type: labelType,
       label_data: labelData,
       template_data: templateData,
